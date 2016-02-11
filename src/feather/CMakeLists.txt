@@ -8,6 +8,7 @@ project(feather)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
   roscpp
   rospy
   std_msgs
@@ -52,14 +53,16 @@ add_message_files(
   FILES
   Status.msg
   Num.msg
+  LidarData.msg
 #   Message1.msg
 #   Message2.msg
 )
 
 ## Generate services in the 'srv' folder
  add_service_files(
-   FILES
-   AddTwoInts.srv
+  FILES
+  AddTwoInts.srv
+  SendCommand.srv
 #   Service1.srv
 #   Service2.srv
  )
@@ -75,6 +78,7 @@ add_message_files(
  generate_messages(
    DEPENDENCIES
    std_msgs  # Or other packages containing msgs
+   geometry_msgs
  )
 
 ################################################
@@ -109,7 +113,7 @@ add_message_files(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES feather
-  CATKIN_DEPENDS roscpp rospy message_runtime
+  CATKIN_DEPENDS geometry_msgs roscpp rospy message_runtime
 #  DEPENDS system_lib
 )
 
@@ -165,6 +169,7 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
  catkin_install_python(PROGRAMS
    src/service_client.py
+   src/motor_command_client.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
@@ -212,7 +217,13 @@ include_directories(
 add_executable(add_two_ints_server src/add_two_ints_server.cpp)
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 add_dependencies(add_two_ints_server feather_gencpp)
+
 ## talker node
 add_executable(talker src/publisher_cpp.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES})
 add_dependencies(talker feather_generate_messages_cpp)
+
+add_executable(motor_command_service src/motor_command_service.cpp)
+target_link_libraries(motor_command_service ${catkin_LIBRARIES})
+add_dependencies(motor_command_service feather_gencpp)
+

@@ -13,6 +13,7 @@ nav_msgs
   roscpp
   rospy
   std_msgs
+sensor_msgs
   message_generation
 )
 
@@ -64,11 +65,9 @@ add_message_files(
   FILES
   AddTwoInts.srv
   SendCommand.srv
-<<<<<<< HEAD
   AddThreeInts.srv
-=======
   PathPlanning.srv
->>>>>>> 55f4888011badb79f52b397ee89997c634ffcf89
+
 #   Service1.srv
 #   Service2.srv
  )
@@ -85,7 +84,8 @@ add_message_files(
    DEPENDENCIES
    std_msgs  # Or other packages containing msgs
    geometry_msgs
-   nav_msgs
+   #nav_msgs
+   sensor_msgs
 
  )
 
@@ -122,8 +122,8 @@ add_message_files(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES feather
-  CATKIN_DEPENDS geometry_msgs roscpp rospy message_runtime
-  CATKIN_DEPENDS nav_msgs roscpp rospy message_runtime
+  CATKIN_DEPENDS geometry_msgs sensor_msgs roscpp rospy message_runtime
+  #CATKIN_DEPENDS nav_msgs roscpp rospy message_runtime
 #  DEPENDS system_lib
 )
 
@@ -152,9 +152,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/feather_node.cpp)
-add_executable(communication src/communication.cpp)
-add_executable(add_two_ints_server src/add_two_ints_server.cpp)
-add_executable(motor_command_service src/motor_command_service.cpp)
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -165,17 +163,12 @@ add_executable(motor_command_service src/motor_command_service.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(communication ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(add_two_ints_server feather_gencpp)
-add_dependencies(motor_command_service feather_gencpp)
+
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(communication  ${catkin_LIBRARIES})
-target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
-target_link_libraries(motor_command_service ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -256,9 +249,9 @@ add_dependencies(motor_command_service feather_gencpp)
 #target_link_libraries(sub ${catkin_LIBRARIES})
 #add_dependencies(sub feather_generate_messages_cpp)
 
-add_executable(add_three src/add_three_ints_server.cpp)
-target_link_libraries(add_three ${catkin_LIBRARIES})
-add_dependencies(add_three feather_gencpp)
+#add_executable(add_three src/add_three_ints_server.cpp)
+#target_link_libraries(add_three ${catkin_LIBRARIES})
+#add_dependencies(add_three feather_gencpp)
 
 # coordinate service for sei automatic mode
 add_executable(coordinate_server src/coordinate_server.cpp)
@@ -266,13 +259,13 @@ target_link_libraries(coordinate_server ${catkin_LIBRARIES})
 add_dependencies(coordinate_server feather_gencpp)
 
 ## talker node
-add_executable(talker src/publisher_cpp.cpp)
-target_link_libraries(talker ${catkin_LIBRARIES})
-add_dependencies(talker feather_generate_messages_cpp)
+#add_executable(talker src/publisher_cpp.cpp)
+#target_link_libraries(talker ${catkin_LIBRARIES})
+#add_dependencies(talker feather_generate_messages_cpp)
 #subcriber to talker
-add_executable(listener src/subscriber_cpp.cpp)
-target_link_libraries(listener ${catkin_LIBRARIES})
-add_dependencies(listener feather_generate_messages_cpp)
+#add_executable(listener src/subscriber_cpp.cpp)
+#target_link_libraries(listener ${catkin_LIBRARIES})
+#add_dependencies(listener feather_generate_messages_cpp)
 
 
 #lidar simulator in cpp

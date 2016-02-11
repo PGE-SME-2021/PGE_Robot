@@ -9,6 +9,7 @@ project(feather)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+nav_msgs
   roscpp
   rospy
   std_msgs
@@ -63,6 +64,7 @@ add_message_files(
   FILES
   AddTwoInts.srv
   SendCommand.srv
+  AddThreeInts.srv
 #   Service1.srv
 #   Service2.srv
  )
@@ -79,6 +81,8 @@ add_message_files(
    DEPENDENCIES
    std_msgs  # Or other packages containing msgs
    geometry_msgs
+   nav_msgs
+
  )
 
 ################################################
@@ -114,6 +118,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES feather
   CATKIN_DEPENDS geometry_msgs roscpp rospy message_runtime
+  CATKIN_DEPENDS nav_msgs roscpp rospy message_runtime
 #  DEPENDS system_lib
 )
 
@@ -219,20 +224,24 @@ target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 add_dependencies(add_two_ints_server feather_gencpp)
 
 ## talker node
-add_executable(talker src/publisher_cpp.cpp)
-target_link_libraries(talker ${catkin_LIBRARIES})
-add_dependencies(talker feather_generate_messages_cpp)
+add_executable(lidar_simulator src/lidar_simulator.cpp)
+target_link_libraries(lidar_simulator ${catkin_LIBRARIES})
+add_dependencies(lidar_simulator feather_generate_messages_cpp)
 
-add_executable(add_three src/add_three_ints_server.cpp)
-target_link_libraries(add_three ${catkin_LIBRARIES})
-add_dependencies(add_three feather_gencpp)
+#add_executable(add_three src/add_three_ints_server.cpp)
+#target_link_libraries(add_three ${catkin_LIBRARIES})
+#add_dependencies(add_three feather_gencpp)
 
 
 add_executable(motor_command_service src/motor_command_service.cpp)
 target_link_libraries(motor_command_service ${catkin_LIBRARIES})
 add_dependencies(motor_command_service feather_gencpp)
 
-#lidar simulator in cpp
-add_executable(lidar_simulator src/lidar_simulator.cpp)
-target_link_libraries(lidar_simulator ${catkin_LIBRARIES})
-add_dependencies(lidar_simulator feather_generate_messages_cpp)
+
+#add_executable(pub src/pub.cpp)
+#target_link_libraries(pub ${catkin_LIBRARIES})
+#add_dependencies(pub feather_generate_messages_cpp)
+
+#add_executable(sub src/sub.cpp)             
+#target_link_libraries(sub ${catkin_LIBRARIES})
+#add_dependencies(sub feather_generate_messages_cpp)

@@ -1,5 +1,4 @@
 #include "ros/ros.h"
-#include "std_msgs/String.h"
 #include "feather/LidarData.h"
 
 #include <geometry_msgs/Quaternion.h>
@@ -41,17 +40,18 @@ while (ros::ok()){
 	//msg.data = coor;
 
 
-	
-
 	ROS_INFO("%f", coordonnees);
 
 	for(i = 0; i < 1000; i++){
 		msg.points[i].x = 5;
 		msg.points[i].y = 5;
+
 		msg.points[i].z = 0;
 		}
 
+
 	//ROS_INFO("%f %f", msg.points[0].x, msg.points[0].y);
+
 
 	chatter_pub.publish(coordonnees);
 

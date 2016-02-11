@@ -1,9 +1,15 @@
-
 <launch>
 
-<env name="ROS_MASTER_URI" value="http://10.42.0.1:11311"/>
+<env name="ROS_MASTER_URI" value="http://10.42.0.254:11311"/>
 
-<node pkg="feather" name="gui" type="mainwindow_gui.py" output="screen">
+
+<node pkg="feather" name="status_pub" type="status_sender.py" output="screen">
 </node>
+
+<node pkg="feather" name="lidar_pub" type="lidar_simulator" output="screen">
+</node>
+
+<node pkg="feather" name="Qt_node" type="mainwindow_gui.py" output="screen">
+</node> 
 
 </launch>

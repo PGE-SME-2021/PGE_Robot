@@ -20,7 +20,8 @@ import numpy as np
 
 from mainwindow_frontend import Ui_MainWindow
 from tools import NodeSub
-from service_client import add_two_ints_client
+from motor_command_client import send_command_client
+from coordinate_client import send_coordinates
 
 class Worker(QThread):
     '''
@@ -63,6 +64,9 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.activate_ROSthread()
 
         self.ui.pushButton_2.clicked.connect(self.down_click)
+        self.ui.pushButton_3.clicked.connect(self.another_click)
+        self.ui.pushButton_4.clicked.connect(self.otro_click)
+        self.ui.pushButton.clicked.connect(self.mas_click)
 
         '''Init cartography widget'''
 
@@ -107,7 +111,23 @@ class MyMainWindow(QtWidgets.QMainWindow):
 
     def down_click(self):
         #self.ui.label.setText("Down")
-        add_two_ints_client(1,2)
+        print("down")
+        send_command_client(1)
+
+    def another_click(self):
+        #left
+        print('2')
+        send_command_client(2)
+
+    def otro_click(self):
+        #right
+        print('3')
+        send_command_client(3)
+
+    def mas_click(self):
+        #up
+        print('4')
+        send_command_client(4)
 
 
 
@@ -123,7 +143,9 @@ class MyMainWindow(QtWidgets.QMainWindow):
             pos = mouseClickEvent.scenePos()
             pos_x = pos.x()
             pos_y = pos.y()
+            send_coordinates(pos_x, pos_y)
             print(pos_x, pos_y)
+            
 
 
 if __name__ == '__main__':

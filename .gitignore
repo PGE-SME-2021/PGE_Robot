@@ -30,3 +30,4 @@ src/CMakeLists.txt
 src/demos/**
 src/test/**
 
+.vscode/

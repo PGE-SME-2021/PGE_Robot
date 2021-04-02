@@ -18,8 +18,9 @@ def publisher():
             counter = 0
             battery_level += 1
         msg_to_publish.battery = battery_level
+        msg_to_publish.speed = battery_level+2
         pub.publish(msg_to_publish)
-        #rospy.loginfo(str_to_pub)
+        rospy.loginfo(str_to_pub)
         time.sleep(1)
 
 if __name__ == "__main__":

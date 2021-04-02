@@ -1,0 +1,22 @@
+@startuml
+actor User as user
+boundary QtFrame as qt_frame
+entity "/coordinate_server" as server
+entity "/trajectory_server" as server2
+
+user -> qt_frame: Start()
+activate user
+activate qt_frame
+
+user -> qt_frame: click_map()
+deactivate user
+qt_frame -> qt_frame: get_pixel_coordinates()
+qt_frame -> qt_frame: map_pixel_coordinates()
+qt_frame -> server: [x, y]
+activate server
+server -> server2: get_trajectory()
+server --> qt_frame: [Coordinates sent succesfully]
+deactivate server
+deactivate qt_frame
+
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+actor User as user
+boundary QtFrame as qt_frame
+entity "/status_pub" as status_pub
+user -> qt_frame: Start()
+activate qt_frame
+alt message_received
+	status_pub -> qt_frame: [status_data]
+	qt_frame -> qt_frame: display(status_data)
+	qt_frame -> user: status_data
+else timeout
+	qt_frame -> qt_frame: skip()
+	qt_frame -[#red]> user:  No data received
+	deactivate qt_frame
+end
+@enduml

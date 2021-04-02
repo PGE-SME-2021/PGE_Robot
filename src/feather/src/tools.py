@@ -2,9 +2,8 @@ import rospy
 
 class NodeSub():
     def __init__(self, node_name):
-
         self.node_name = node_name
-        
+
 
     def start_node(self):
         rospy.init_node(self.node_name)
@@ -28,3 +27,5 @@ class NodeSub():
         self.data = message
         print("result:")
         rospy.loginfo(F"GOT {self.data}")
+
+

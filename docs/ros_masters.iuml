@@ -1,0 +1,11 @@
+@startuml
+title "ROS NETWORKING"
+cloud [master\n192.168.1.1] as master
+component [Machine 1\n192.168.1.1] as mac1
+component [Machine 2\n192.168.1.94] as mac2
+component [Machine 3\n192.168.1.78] as mac3
+
+master -- mac1
+master -- mac2
+master -(0)- mac3
+@enduml

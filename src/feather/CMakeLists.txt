@@ -9,9 +9,11 @@ project(feather)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+nav_msgs
   roscpp
   rospy
   std_msgs
+sensor_msgs
   message_generation
 )
 
@@ -63,6 +65,7 @@ add_message_files(
   FILES
   AddTwoInts.srv
   SendCommand.srv
+  AddThreeInts.srv
   PathPlanning.srv
   AddThreeInts.srv
 #   Service1.srv
@@ -81,6 +84,9 @@ add_message_files(
    DEPENDENCIES
    std_msgs  # Or other packages containing msgs
    geometry_msgs
+   #nav_msgs
+   sensor_msgs
+
  )
 
 ################################################
@@ -116,7 +122,8 @@ add_message_files(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES feather
-  CATKIN_DEPENDS geometry_msgs roscpp rospy message_runtime
+  CATKIN_DEPENDS geometry_msgs sensor_msgs roscpp rospy message_runtime
+  #CATKIN_DEPENDS nav_msgs roscpp rospy message_runtime
 #  DEPENDS system_lib
 )
 
@@ -173,6 +180,7 @@ include_directories(
  catkin_install_python(PROGRAMS
    src/service_client.py
    src/motor_command_client.py
+   src/coordinate_client.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
@@ -217,9 +225,21 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(add_three src/add_three_ints_server.cpp)
-target_link_libraries(add_three ${catkin_LIBRARIES})
-add_dependencies(add_three feather_gencpp)
+#add_executable(add_three src/add_three_ints_server.cpp)
+#target_link_libraries(add_three ${catkin_LIBRARIES})
+#add_dependencies(add_three feather_gencpp)
+
+#add_executable(pub src/pub.cpp)
+#target_link_libraries(pub ${catkin_LIBRARIES})
+#add_dependencies(pub feather_generate_messages_cpp)
+
+#add_executable(sub src/sub.cpp)             
+#target_link_libraries(sub ${catkin_LIBRARIES})
+#add_dependencies(sub feather_generate_messages_cpp)
+
+#add_executable(add_three src/add_three_ints_server.cpp)
+#target_link_libraries(add_three ${catkin_LIBRARIES})
+#add_dependencies(add_three feather_gencpp)
 
 # coordinate service for sei automatic mode
 add_executable(coordinate_server src/coordinate_server.cpp)
@@ -227,9 +247,15 @@ target_link_libraries(coordinate_server ${catkin_LIBRARIES})
 add_dependencies(coordinate_server feather_gencpp)
 
 ## talker node
-add_executable(talker src/publisher_cpp.cpp)
-target_link_libraries(talker ${catkin_LIBRARIES})
-add_dependencies(talker feather_generate_messages_cpp)
+#add_executable(talker src/publisher_cpp.cpp)
+#target_link_libraries(talker ${catkin_LIBRARIES})
+#add_dependencies(talker feather_generate_messages_cpp)
+#subcriber to talker
+#add_executable(listener src/subscriber_cpp.cpp)
+#target_link_libraries(listener ${catkin_LIBRARIES})
+#add_dependencies(listener feather_generate_messages_cpp)
+
+
 #lidar simulator in cpp
 add_executable(lidar_simulator src/lidar_simulator.cpp)
 target_link_libraries(lidar_simulator ${catkin_LIBRARIES})

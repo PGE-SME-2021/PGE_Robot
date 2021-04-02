@@ -1,20 +1,22 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2 #3.2.0
-from pathlib import Path
 import time
+import os
 
 def publisher():
     pub = rospy.Publisher("image_sim", Image, queue_size= 10)
     rate = rospy.Rate(0.5)
     msg_to_publish = Image()
-    BASE_DIR = Path(__file__).resolve().parent
+    BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+    #BASE_DIR = Path(__file__).resolve().parent
     while not rospy.is_shutdown():
         for i in range(1,5):
-            file_name = F"{BASE_DIR}/img{i}.jpg"
+            file_name = BASE_DIR + "/img" + str(i) + ".jpg"
+            #file_name = F"{BASE_DIR}/img{i}.jpg"
             print(file_name)
             img = cv2.imread(file_name)
             bridge = CvBridge()

@@ -1,13 +1,10 @@
-
 // library
 #include "ros/ros.h"
 
-//#include "serial/serial.h"
+#include "serial/serial.h"
 #include "stdio.h"
 #include "feather/SendCommand.h"
 #include "serial_cmd.cpp"
-
-
 
 bool raspi_to_esp(feather::SendCommand::Request  &req,
          feather::SendCommand::Response &res)
@@ -15,7 +12,7 @@ bool raspi_to_esp(feather::SendCommand::Request  &req,
 
 	if ((0 <= req.com) && (req.com <= 7)) {
 
-		send_serial(req.com);
+	send_serial(req.com);
       	res.check = 1;
     } else  {
         res.check = 0;

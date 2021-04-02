@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 import rospy
 import time
@@ -6,11 +5,7 @@ from feather.msg import Status
 #from std_msgs.msg import String
 
 def publisher():
-    pub = rospy.Publisher(
-        "status",
-        Status,
-        queue_size = 10
-        )
+    pub = rospy.Publisher("status", Status, queue_size = 10)
     rate = rospy.Rate(1)#1Hz
     counter = 0
     battery_level = 50

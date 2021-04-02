@@ -7,7 +7,7 @@
 #include "serial_cmd.cpp"
 #include <std_msgs/Int16.h>
 
-/*
+
 void odomCallback_euler(const nav_msgs::Odometry& data_euler){
 	ROS_INFO("Data odometrie receive"); // = printf 
 	for (int i = 0; i < 36 ; i++  ) {
@@ -46,4 +46,4 @@ int main(int argc, char **argv){
   	ros::spin();//loop
   
   return 0;
-}*/
+}

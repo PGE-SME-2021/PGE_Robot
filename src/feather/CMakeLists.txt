@@ -212,3 +212,7 @@ include_directories(
 add_executable(add_two_ints_server src/add_two_ints_server.cpp)
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 add_dependencies(add_two_ints_server feather_gencpp)
+## talker node
+add_executable(talker src/publisher_cpp.cpp)
+target_link_libraries(talker ${catkin_LIBRARIES})
+add_dependencies(talker feather_generate_messages_cpp)

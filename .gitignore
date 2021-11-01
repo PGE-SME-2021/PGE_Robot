@@ -1,0 +1,20 @@
+# media files
+**.jpg
+**.jpeg
+**.png
+**.pdf
+**.zip
+
+# local test files
+**_test.py
+
+# python cache
+**/__pycache__/**
+
+# virtual environment
+venv/**
+
+# Vim Swap files 
+**.swp
+**.swo
+**.swa

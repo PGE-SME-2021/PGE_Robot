@@ -16,6 +16,7 @@ class TalkieRaspi():
             self.server.close()
 
     def start(self):
+        #aqui tienes que colocarle la magia aquella de los signos de interrogacion para finalizar el stream de datos
         self.server.listen(1)
         print(F"Wait for connection")
         data = connection.recv(5)

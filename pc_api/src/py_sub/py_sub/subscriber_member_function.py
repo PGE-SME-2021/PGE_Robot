@@ -22,20 +22,21 @@ from std_msgs.msg import Int32MultiArray
 class MinimalSubscriber(Node):
 
     def __init__(self):
-        super().__init__('fanatica_sensual')
+        super().__init__('minimal_publisher')
         self.subscription = self.create_subscription(
             Int32MultiArray,
             'lidar',
             self.listener_callback,
             10)
-        self.subscription  # prevent unused variable warning
+        self.subscription  # prevents unused variable warning
+        self.test_value = 0
 
     def listener_callback(self, msg):
         increment = msg.data
         #increment += 10
         #self.get_logger().info(': "%s"' % msg.data)
-        print(F'Numero {msg.data[0]}, {msg.data[1]}')
-
+        self.test_value = msg.data[0]
+        print(F'Printing {msg.data[0]}, {msg.data[1]}')
 
 def main(args=None):
     rclpy.init(args=args)

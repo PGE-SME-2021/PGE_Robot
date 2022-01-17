@@ -13,3 +13,10 @@ At We are going to divide our job in stages.
 Those stages are susceptible to change because we dont know exactly the problems that are going to appear in the way.
 ## Organisation
 For organisation we will use Issues to track the backlog and activities we will do. It is not fully mandatory but it will help a lot if we want to keep everything organized.
+
+## Usefull aliases
+
+```bash
+echo 'alias ros-comp="cd ~/catkin_ws/ && catkin_make && source devel/setup.bash"' >> ~/.bashrc
+source ~/.bashrc
+```

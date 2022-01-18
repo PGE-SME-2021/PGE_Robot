@@ -20,6 +20,12 @@ venv/**
 **.swa
 
 #ros env files
-build/
-devel/
+**/build/**
+**/devel/**
 .catkin_workspace
+esp-files/ledc/README.md
+esp-files/ledc/.vscode/
+
+
+
+

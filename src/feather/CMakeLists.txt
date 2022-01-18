@@ -8,6 +8,7 @@ project(feather)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
   roscpp
   rospy
   std_msgs
@@ -52,6 +53,7 @@ add_message_files(
   FILES
   Status.msg
   Num.msg
+  LidarData.msg
 #   Message1.msg
 #   Message2.msg
 )
@@ -75,6 +77,7 @@ add_message_files(
  generate_messages(
    DEPENDENCIES
    std_msgs  # Or other packages containing msgs
+   geometry_msgs
  )
 
 ################################################
@@ -109,7 +112,7 @@ add_message_files(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES feather
-  CATKIN_DEPENDS roscpp rospy message_runtime
+  CATKIN_DEPENDS geometry_msgs roscpp rospy message_runtime
 #  DEPENDS system_lib
 )
 

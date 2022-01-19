@@ -25,3 +25,8 @@ devel/
 .catkin_workspace
 token
 src/CMakeLists.txt
+
+#test packages
+src/demos/**
+src/test/**
+

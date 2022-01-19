@@ -8,8 +8,10 @@ project(feather)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
   roscpp
   rospy
+  std_msgs
   message_generation
 )
 
@@ -50,16 +52,19 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   Status.msg
+  Num.msg
+  LidarData.msg
 #   Message1.msg
 #   Message2.msg
 )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
+ add_service_files(
+   FILES
+   AddTwoInts.srv
 #   Service1.srv
 #   Service2.srv
-# )
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -72,6 +77,7 @@ add_message_files(
  generate_messages(
    DEPENDENCIES
    std_msgs  # Or other packages containing msgs
+   geometry_msgs
  )
 
 ################################################
@@ -106,7 +112,7 @@ add_message_files(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES feather
-  CATKIN_DEPENDS roscpp rospy message_runtime
+  CATKIN_DEPENDS geometry_msgs roscpp rospy message_runtime
 #  DEPENDS system_lib
 )
 
@@ -160,10 +166,10 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+ catkin_install_python(PROGRAMS
+   src/service_client.py
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
@@ -205,3 +211,7 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(add_two_ints_server src/add_two_ints_server.cpp)
+target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
+add_dependencies(add_two_ints_server feather_gencpp)

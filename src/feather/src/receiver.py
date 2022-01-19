@@ -34,7 +34,7 @@ if __name__ == "__main__":
     #love_node_sub.start_node()
     #love_node_sub. subscriber()
 
-    node_sub = NodeSub('status', Status, 'status_recv')
+    node_sub = NodeSub('chatter', String, 'status_recv')
     node_sub.start_node()
     node_sub.subscriber()
 

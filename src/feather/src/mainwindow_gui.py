@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# coding:utf-8
 
 #from __future__ import print_function
 
@@ -8,7 +7,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 import sys
-import time 
+import time
 
 import rospy
 from feather.msg import Status

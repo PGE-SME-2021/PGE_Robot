@@ -1,22 +1,26 @@
 import rospy
 
 class NodeSub():
-    def __init__(self, topic_name, message_type, node_name):
-        self.topic_name = topic_name
-        self. message_type = message_type
+    def __init__(self, node_name):
+
         self.node_name = node_name
-        self.data = LidarData()
+        
 
     def start_node(self):
         rospy.init_node(self.node_name)
 
-    def subscriber(self):
+    def subscriber(self, topic_name, message_type, callback_function):
         print("Creating sub node")
+        #self.topic_name = topic_name
+        #self. message_type = message_type
+        self.data = message_type()
+        subs_list =[]
         sub = rospy.Subscriber(
                 self.topic_name,
                 self.message_type,
-                self.callback_function
+                callback_function
                 )
+        sub_list.append([topic_name, sub])
         print("spining sub node")
         rospy.spin()
 

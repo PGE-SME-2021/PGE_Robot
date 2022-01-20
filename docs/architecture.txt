@@ -1,0 +1,78 @@
+@startuml
+'actor "User" as user
+'usecase "Objects"
+'interface "Topics"
+'node "Nodes"
+'file "Script"
+
+package PC{
+  package "Qt Objects"{
+    usecase "Speed Widget" as speed_widget
+    usecase "Lidar Widget" as lidar_widget
+    usecase "Buttons" as buttons
+    }
+  node "Teobot.dinamics()" as dinamics
+  node "Teobot.slam()" as slam
+  node "Teobot.commands(button)" as cmd
+
+  file "TeoBot.recv()" as recv
+
+  interface "Dinamic Data" as din
+  interface "Lidar Data" as  lidar
+
+  note left of recv
+  Aqui TeoBot actua 
+  como server
+  end note
+
+  }
+
+dinamics -up-> din
+din -up-> speed_widget
+slam -up-> lidar
+lidar -up-> lidar_widget
+recv -up-> slam
+recv -up-> dinamics
+
+
+package Raspi{
+  file "TalkieRaspi.send" as traspi
+  component "Motor" as motor
+  component "Lidar" as lidar2
+
+  node "TalkieRaspi.lidar_process()" as lid_pro
+  node "TalkieRaspie.dinamics()" as din_pro
+  node "TalkieRaspie.command()" as cmd_raspi
+
+
+  interface "Lidar Data" as slam2
+  interface "Dinamic Data" as din2
+}
+
+din_pro -up-# motor
+din_pro -down-> din2
+din2 -down-> traspi
+
+lid_pro -up-# lidar2
+lid_pro -down-> slam2
+slam2 -down-> traspi
+
+traspi <-(0)-> recv : WiFi[5613]
+
+
+buttons -down-> cmd : push
+cmd -(0)-> cmd_raspi: requestWiFi[407]
+'send -(0)-> traspir : 
+'traspir --> cmd_raspi
+cmd_raspi -up-# motor : dinamics
+cmd_raspi -up-# lidar2 : en/dis
+
+'cmd_raspi -[dotted]-> traspir
+'traspir -[dotted]-> send
+cmd_raspi -[dotted]-> cmd :reponse
+
+
+user -down-#"click" buttons
+user -down-#"visual" speed_widget
+user -down-#"visual" lidar_widget
+@enduml

@@ -3,11 +3,7 @@
 <node pkg="feather" name="status_pub" type="status_sender.py" output="screen">
 </node>
 
-<<<<<<< HEAD
 <node pkg="feather" name="lidar_data" type="lidar_simulator.py" output="screen">
-=======
-<node pkg="feather" name="lidar_send" type="lidar_simulator.py" output="screen">
->>>>>>> ab36b8a756c756f459cc304493cccca1fa2ec5ab
 </node>
 
 </launch>

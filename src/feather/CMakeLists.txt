@@ -223,7 +223,16 @@ add_executable(talker src/publisher_cpp.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES})
 add_dependencies(talker feather_generate_messages_cpp)
 
+add_executable(add_three src/add_three_ints_server.cpp)
+target_link_libraries(add_three ${catkin_LIBRARIES})
+add_dependencies(add_three feather_gencpp)
+
+
 add_executable(motor_command_service src/motor_command_service.cpp)
 target_link_libraries(motor_command_service ${catkin_LIBRARIES})
 add_dependencies(motor_command_service feather_gencpp)
 
+#lidar simulator in cpp
+add_executable(lidar_simulator src/lidar_simulator.cpp)
+target_link_libraries(lidar_simulator ${catkin_LIBRARIES})
+add_dependencies(lidar_simulator feather_generate_messages_cpp)

@@ -60,9 +60,9 @@ add_message_files(
 
 ## Generate services in the 'srv' folder
  add_service_files(
-   FILES
-   AddTwoInts.srv
-   AddThreeInts.srv
+  FILES
+  AddTwoInts.srv
+  SendCommand.srv
 #   Service1.srv
 #   Service2.srv
  )
@@ -169,6 +169,7 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
  catkin_install_python(PROGRAMS
    src/service_client.py
+   src/motor_command_client.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
@@ -217,6 +218,12 @@ add_executable(add_two_ints_server src/add_two_ints_server.cpp)
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 add_dependencies(add_two_ints_server feather_gencpp)
 
+<<<<<<< HEAD
 add_executable(add_three src/add_three_ints_server.cpp)
 target_link_libraries(add_three ${catkin_LIBRARIES})
 add_dependencies(add_three feather_gencpp)
+=======
+add_executable(motor_command_service src/motor_command_service.cpp)
+target_link_libraries(motor_command_service ${catkin_LIBRARIES})
+add_dependencies(motor_command_service feather_gencpp)
+>>>>>>> 2a08a62c73818853001dc185783c9d3a67ae7806

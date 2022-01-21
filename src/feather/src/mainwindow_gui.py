@@ -20,6 +20,7 @@ import numpy as np
 
 from mainwindow_frontend import Ui_MainWindow
 from tools import NodeSub
+from service_client import add_two_ints_client
 
 class Worker(QThread):
     '''
@@ -45,7 +46,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         rospy.init_node('node')
-        #b = NodeSub('GUI_recv')
         #self.ros.start_node()
         #self.ros.subscriber()
 
@@ -60,9 +60,8 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.timer.timeout.connect(self.get_lidar_data)
         self.timer.start()
 
-        #self.activate_ROSthread()
+        self.activate_ROSthread()
 
-        #self.ui.pushButton.clicked.connect(self.activate_ROSthread)
         self.ui.pushButton_2.clicked.connect(self.down_click)
 
         '''Init cartography widget'''
@@ -84,10 +83,13 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.ui.label.setText(F"{self.msg.battery}")
 
     def get_lidar_data(self): #receives data from ROS using a timer 
+        self.list_x = []
+        self.list_y = []
         self.points_lidar = rospy.wait_for_message('/lidar_points', LidarData, timeout = 5)
-        self.points_x = self.points_lidar.points[0].x
-        self.points_y = self.points_lidar.points[0].y
-        self.onNewData(self.points_x, self.points_y)
+        for point in self.points_lidar.points:
+            self.list_x.append(point.x)
+            self.list_y.append(point.y)
+        self.onNewData(self.list_x, self.list_y)
 
     def get_Qthread_data(self):
         previous_value = -1
@@ -96,8 +98,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
             current_value = self.msg.battery
             if previous_value != current_value:
                 self.ui.label.setText(F"{self.msg.battery}")
-            else:
-                break
 
             previous_value = current_value
 
@@ -106,12 +106,13 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.worker.start()
 
     def down_click(self):
-        self.ui.label.setText("Down")
+        #self.ui.label.setText("Down")
+        add_two_ints_client(1,2)
 
 
 
-    def setData(self, x, y):
-        self.plotDataItem.setData(x, y)
+    #def setData(self, x, y):
+     #   self.plotDataItem.setData(x, y)
 
     def onNewData(self, x, y):
         self.plot.setData(x,y)

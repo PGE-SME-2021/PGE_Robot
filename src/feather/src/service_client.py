@@ -19,7 +19,7 @@ def usage():
 
 if __name__ == "__main__":
     x = 1
-    y = 34
+    y = 2
     z = 3
     print("Requesting %s+%s"%(x, y))
     print("%s + %s = %s"%(x, y, add_two_ints_client(x, y, z)))

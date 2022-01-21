@@ -218,12 +218,10 @@ add_executable(add_two_ints_server src/add_two_ints_server.cpp)
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 add_dependencies(add_two_ints_server feather_gencpp)
 
-<<<<<<< HEAD
 add_executable(add_three src/add_three_ints_server.cpp)
 target_link_libraries(add_three ${catkin_LIBRARIES})
 add_dependencies(add_three feather_gencpp)
-=======
+
 add_executable(motor_command_service src/motor_command_service.cpp)
 target_link_libraries(motor_command_service ${catkin_LIBRARIES})
 add_dependencies(motor_command_service feather_gencpp)
->>>>>>> 2a08a62c73818853001dc185783c9d3a67ae7806

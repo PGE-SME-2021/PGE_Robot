@@ -63,6 +63,7 @@ add_message_files(
   FILES
   AddTwoInts.srv
   SendCommand.srv
+  PathPlanning.srv
 #   Service1.srv
 #   Service2.srv
  )
@@ -221,6 +222,11 @@ add_dependencies(add_two_ints_server feather_gencpp)
 add_executable(add_three src/add_three_ints_server.cpp)
 target_link_libraries(add_three ${catkin_LIBRARIES})
 add_dependencies(add_three feather_gencpp)
+
+# coordinate service for sei automatic mode
+add_executable(coordinate_server src/coordinate_server.cpp)
+target_link_libraries(coordinate_server ${catkin_LIBRARIES})
+add_dependencies(coordinate_server feather_cpp)
 
 add_executable(motor_command_service src/motor_command_service.cpp)
 target_link_libraries(motor_command_service ${catkin_LIBRARIES})

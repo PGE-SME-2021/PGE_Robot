@@ -233,3 +233,7 @@ add_dependencies(talker feather_generate_messages_cpp)
 add_executable(lidar_simulator src/lidar_simulator.cpp)
 target_link_libraries(lidar_simulator ${catkin_LIBRARIES})
 add_dependencies(lidar_simulator feather_generate_messages_cpp)
+#motor node
+add_executable(motor_node src/motor_node.cpp)
+target_link_libraries(motor_node ${catkin_LIBRARIES})
+add_dependencies(motor_node feather_generate_messages_cpp)

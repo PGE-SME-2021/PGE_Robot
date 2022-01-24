@@ -30,7 +30,7 @@ class NodeSub():
 
 
 if __name__ == "__main__":
-    node_sub = NodeSub('lidar_points', LidarData, 'lidar_recv')
+    node_sub = NodeSub('lidar_data', LidarData, 'lidar_recv')
     node_sub.start_node()
     node_sub.subscriber()
 

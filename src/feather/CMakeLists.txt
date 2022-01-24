@@ -224,3 +224,19 @@ target_link_libraries(motor_command_service ${catkin_LIBRARIES})
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
+add_executable(add_three src/add_three_ints_server.cpp)
+target_link_libraries(add_three ${catkin_LIBRARIES})
+add_dependencies(add_three feather_gencpp)
+
+## talker node
+add_executable(talker src/publisher_cpp.cpp)
+target_link_libraries(talker ${catkin_LIBRARIES})
+add_dependencies(talker feather_generate_messages_cpp)
+#lidar simulator in cpp
+add_executable(lidar_simulator src/lidar_simulator.cpp)
+target_link_libraries(lidar_simulator ${catkin_LIBRARIES})
+add_dependencies(lidar_simulator feather_generate_messages_cpp)
+#motor node
+add_executable(motor_node src/motor_node.cpp)
+target_link_libraries(motor_node ${catkin_LIBRARIES})
+add_dependencies(motor_node feather_generate_messages_cpp)

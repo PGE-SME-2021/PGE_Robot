@@ -232,11 +232,8 @@ add_dependencies(add_three feather_gencpp)
 # coordinate service for sei automatic mode
 add_executable(coordinate_server src/coordinate_server.cpp)
 target_link_libraries(coordinate_server ${catkin_LIBRARIES})
-add_dependencies(coordinate_server feather_cpp)
+add_dependencies(coordinate_server feather_gencpp)
 
-add_executable(motor_command_service src/motor_command_service.cpp)
-target_link_libraries(motor_command_service ${catkin_LIBRARIES})
-add_dependencies(motor_command_service feather_gencpp)
 ## talker node
 add_executable(talker src/publisher_cpp.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES})
@@ -246,6 +243,6 @@ add_executable(lidar_simulator src/lidar_simulator.cpp)
 target_link_libraries(lidar_simulator ${catkin_LIBRARIES})
 add_dependencies(lidar_simulator feather_generate_messages_cpp)
 #motor node
-add_executable(motor_node src/motor_node.cpp)
+add_executable(motor_node src/status_node.cpp)
 target_link_libraries(motor_node ${catkin_LIBRARIES})
 add_dependencies(motor_node feather_generate_messages_cpp)

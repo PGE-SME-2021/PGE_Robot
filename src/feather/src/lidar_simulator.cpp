@@ -1,5 +1,4 @@
 #include "ros/ros.h"
-#include "std_msgs/String.h"
 #include "feather/LidarData.h"
 
 #include <sstream>
@@ -21,21 +20,16 @@ while (ros::ok()){
 	x = count; y = count - 30;
 	feather::LidarData msg;
 
-	/*
-	std::stringstream ss;
-	ss << "hello world " << count;
-	msg.data = ss.str();
-	*/
 	
 	for(i = 0; i < 80; i++){
-		x = x + 1;
+		x = x + 5;
 		y = y + 1;
 		msg.points[i].x = x;
 		msg.points[i].y = y;
 		msg.points[i].z = 0;
 		}	
 
-	ROS_INFO("%f %f", msg.points[0].x, msg.points[0].y);
+//ROS_INFO("%f %f", msg.points[0].x, msg.points[0].y);
 
 	chatter_pub.publish(msg);
 

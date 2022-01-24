@@ -9,4 +9,10 @@
 <node pkg="feather" name="Qt_node" type="mainwindow_gui.py" output="screen">
 </node> 
 
+<node pkg="feather" name="coordinate_server" type="coordinate_server" output="screen">
+</node> 
+
+<node pkg="feather" name="communication_server" type="communication" output="screen">
+</node> 
+
 </launch>

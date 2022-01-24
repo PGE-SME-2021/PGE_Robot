@@ -2,7 +2,7 @@
 #include "ros/ros.h"
 #include "feather/PathPlanning.h"
 
-bool add(
+bool path_planning(
 	feather::PathPlanning::Request &req,
 	feather::PathPlanning::Response &res
 	)
@@ -14,26 +14,25 @@ bool add(
 	ROS_INFO(
 		"Coordinates: x=%ld, y=%ld", 
 		(long int)req.x,
-		(long int)req.y,
+		(long int)req.y
 		);
+	res.result = 34;
 	if (req.x < 180){
-		ROS_INFO("sum = %ld", (long int)res.sum);
 		return true;
 		}
 	else{
-		ROS_INFO("Too big SUM = %ld", (long int)res.sum);
 		return false;
 		}
-}
+	}
 
 int main(int argc, char **argv){
-	ros::init(argc, argv, "add_3_server");
+	ros::init(argc, argv, "coordinate_server");
 	ros::NodeHandle n;
 	ros::ServiceServer service = n.advertiseService(
-			"add_3",
-			add
+			"coordinate_service",
+			path_planning
 			);
-	ROS_INFO("Give it to me");
+	ROS_INFO("Ready to send coordinates to robot");
 	ros::spin();
 	return 0;
 	}

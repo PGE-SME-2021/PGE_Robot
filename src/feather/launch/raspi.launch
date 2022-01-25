@@ -1,0 +1,10 @@
+<launch>
+
+
+<node pkg="feather" name="coordinate_server" type="coordinate_server" output="screen">
+</node> 
+
+<node pkg="feather" name="communication_server" type="communication" output="screen">
+</node> 
+
+</launch>

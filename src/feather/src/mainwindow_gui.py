@@ -60,9 +60,12 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.timer.timeout.connect(self.get_lidar_data)
         self.timer.start()
 
-        self.activate_ROSthread()
+        #self.activate_ROSthread()
 
-        self.ui.pushButton_2.clicked.connect(self.down_click)
+        self.ui.pushButton_2.setCheckable(True)
+        self.ui.pushButton_2.toggle()
+        self.ui.pushButton_2.clicked.connect(self.btnstate)
+
 
         '''Init cartography widget'''
 
@@ -106,8 +109,15 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.worker.start()
 
     def down_click(self):
-        #self.ui.label.setText("Down")
-        add_two_ints_client(1,2)
+        sum_result = add_two_ints_client(1,2)
+        self.ui.label.setText(F"{sum_result}")
+
+    def btnstate(self):
+        if self.ui.pushButton_2.isChecked():
+            print('button is pressed')
+        else:
+            print('button was released')
+
 
 
 
@@ -127,7 +137,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
 
 
 if __name__ == '__main__':
-    #rclpy.init(args=sys.argv)
 
     app = QApplication(sys.argv)
     myMainWindow = MyMainWindow()

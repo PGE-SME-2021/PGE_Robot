@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import rospy
 #from std_msgs.msg import Int32MultiArray
 from feather.msg import LidarData
@@ -26,11 +26,10 @@ class NodeSub():
     def callback_function(self, message):
         self.data = message
         print("result:")
-        rospy.loginfo(F"GOT {self.data.points[0]}")
+        rospy.loginfo("GOT %d"%self.data.points[0])
 
 
 if __name__ == "__main__":
-    node_sub = NodeSub('lidar_data', LidarData, 'lidar_recv')
+    node_sub = NodeSub('lidar_points', LidarData, 'lidar_recv')
     node_sub.start_node()
     node_sub.subscriber()
-

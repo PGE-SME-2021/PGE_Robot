@@ -238,6 +238,12 @@ add_dependencies(coordinate_server feather_gencpp)
 add_executable(talker src/publisher_cpp.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES})
 add_dependencies(talker feather_generate_messages_cpp)
+#subcriber to talker
+add_executable(listener src/subscriber_cpp.cpp)
+target_link_libraries(listener ${catkin_LIBRARIES})
+add_dependencies(listener feather_generate_messages_cpp)
+
+
 #lidar simulator in cpp
 add_executable(lidar_simulator src/lidar_simulator.cpp)
 target_link_libraries(lidar_simulator ${catkin_LIBRARIES})

@@ -23,6 +23,7 @@ from mainwindow_frontend import Ui_MainWindow
 from tools import NodeSub
 from motor_command_client import send_command_client
 from coordinate_client import send_coordinates
+from csv_functions import *
 
 
 class Worker(QThread):
@@ -125,7 +126,9 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def otro_click(self):
         #right
         print('3')
-        send_command_client(3)
+        #send_command_client(3)
+        file_name = F"gui_{generate_file_name()}"
+        save_csv_data(file_name, self.points_lidar)
 
     def mas_click(self):
         #up

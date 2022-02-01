@@ -80,6 +80,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot = pg.PlotWidget()
         self.my_plot.getPlotItem().hideAxis('bottom')
         self.my_plot.getPlotItem().hideAxis('left')
+        self.my_plot.setRange(xRange = [-12,12], yRange = [-12,12], disableAutoRange = True)
         self.ui.verticalLayout_4.addWidget(self.my_plot)
         self.plot = self.my_plot.plot(pen=None, symbolSize=5) #create an object "plot"
         self.my_plot.scene().sigMouseClicked.connect(self.mouse_clicked)  

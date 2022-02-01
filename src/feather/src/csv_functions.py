@@ -15,15 +15,18 @@ def generate_file_name():
     name = F"{year}_{month}_{day}_{hour}_{mins}_{sec}"
     return name
 
-def save_csv_data(file_name, points):
+def save_csv_data(file_name, data):
     print(F"Saving file to")
-    file_path = F"{BASE_DIR}/data/{file_name}.csv"
+    file_path = F"{BASE_DIR}/data/{file_name}_val.csv"
     print(file_path)
-    os.system(F"touch {file_path}")
     file = open(file_path, "w+")
     file.write(F"x, y\n")
     file.close()
     file = open(file_path, "a")
-    for point in points:
+    for point in data.points:
         file.write(F"{point.x}, {point.y}\n")
     file.close()
+    file_path = F"{BASE_DIR}/data/{file_name}.txt"
+    file = open(file_path, "w+")
+    str_dict = repr(data)
+    file.write(str_dict)

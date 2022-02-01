@@ -12,6 +12,7 @@ import time
 
 import rospy
 from feather.msg import Status, LidarData
+from sensor_msgs.msg import PointCloud
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
@@ -22,6 +23,7 @@ from mainwindow_frontend import Ui_MainWindow
 from tools import NodeSub
 from motor_command_client import send_command_client
 from coordinate_client import send_coordinates
+
 
 class Worker(QThread):
     '''
@@ -89,7 +91,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def get_lidar_data(self): #receives data from ROS using a timer 
         self.list_x = []
         self.list_y = []
-        self.points_lidar = rospy.wait_for_message('/lidar_points', LidarData, timeout = 5)
+        self.points_lidar = rospy.wait_for_message('/slam_cloud', PointCloud, timeout = 5)
         for point in self.points_lidar.points:
             self.list_x.append(point.x)
             self.list_y.append(point.y)
@@ -143,9 +145,9 @@ class MyMainWindow(QtWidgets.QMainWindow):
             pos = mouseClickEvent.scenePos()
             pos_x = pos.x()
             pos_y = pos.y()
-            send_coordinates(pos_x, pos_y)
+            #send_coordinates(pos_x, pos_y)
             print(pos_x, pos_y)
-            
+
 
 
 if __name__ == '__main__':

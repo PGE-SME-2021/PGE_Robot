@@ -93,7 +93,8 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def get_lidar_data(self): #receives data from ROS using a timer 
         self.list_x = []
         self.list_y = []
-        self.points_lidar = rospy.wait_for_message('/slam_cloud', PointCloud, timeout = 5)
+        #self.points_lidar = rospy.wait_for_message('/slam_cloud', PointCloud, timeout = 5)
+        self.points_lidar = rospy.wait_for_message('/lidar_points', LidarData, timeout = 5)
         for point in self.points_lidar.points:
             self.list_x.append(point.x)
             self.list_y.append(point.y)

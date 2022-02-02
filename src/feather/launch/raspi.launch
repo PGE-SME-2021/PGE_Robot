@@ -1,6 +1,15 @@
 <launch>
 
+<include file="$(find rplidar)/launch/rplidar.launch"/>
+<include file="$(find hector_slam_launch)/launch/tuto2.launch"/>
+
 <node pkg="feather" name="communication_server" type="communication" output="screen">
 </node> 
+
+<node pkg="feather" name="coordinate_server" type="coordinate_server" output="screen">
+</node> 
+
+<node pkg="feather" name="status_pub" type="status_sender.py" output="screen">
+</node>
 
 </launch>

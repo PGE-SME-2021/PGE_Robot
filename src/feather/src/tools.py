@@ -27,3 +27,5 @@ class NodeSub():
         self.data = message
         print("result:")
         rospy.loginfo(F"GOT {self.data}")
+
+

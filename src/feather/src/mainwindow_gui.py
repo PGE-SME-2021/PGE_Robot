@@ -84,7 +84,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot.setRange(xRange = [-12,12], yRange = [-12,12], disableAutoRange = True)
         self.ui.verticalLayout_4.addWidget(self.my_plot)
         self.plot = self.my_plot.plot(pen=None, symbolSize=5) #create an object "plot"
-        self.my_plot.scene().sigMouseClicked.connect(self.mouse_clicked)  
+        self.my_plot.scene().sigMouseClicked.connect(self.mouse_clicked)
 
     def get_timer_data(self): #receives data from ROS using a timer 
         self.msg = rospy.wait_for_message('/status', Status, timeout = 5)
@@ -123,6 +123,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         #left
         print('2')
         send_command_client(2)
+        self.my_plot.setRange(xRange = [-12,12], yRange = [-12,12], disableAutoRange = True)
 
     def otro_click(self):
         #right
@@ -142,6 +143,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
      #   self.plotDataItem.setData(x, y)
 
     def onNewData(self, x, y):
+        #seria muy interesante hacer un cuadrito blanco de 13x13 para decir que ese es el robot para saber exactamente donde estamos y que es lo que estamos viendo
         self.plot.setData(x,y)
 
     def mouse_clicked(self, mouseClickEvent):
@@ -150,9 +152,16 @@ class MyMainWindow(QtWidgets.QMainWindow):
             pos = mouseClickEvent.scenePos()
             pos_x = pos.x()
             pos_y = pos.y()
-            #send_coordinates(pos_x, pos_y)
             print(pos_x, pos_y)
 
+            #send_coordinates(pos_x, pos_y)
+            val_x = mapping(0, 488, -12, 12, pos_x)
+            val_y = mapping(235, 0, -12, 12, pos_y)
+            print(F"approx location (x = {val_x}m, y = {val_y}m)")
+
+def mapping(min_init, max_init, min_fin, max_fin, value):
+    m = float((max_fin - min_fin) / (max_init - min_init))
+    return m * (value - max_init) + max_fin
 
 
 if __name__ == '__main__':

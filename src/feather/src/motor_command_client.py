@@ -17,6 +17,3 @@ def send_command_client(x):
 
 if __name__ == "__main__":
 	send_command_client(2)
-
-
-    

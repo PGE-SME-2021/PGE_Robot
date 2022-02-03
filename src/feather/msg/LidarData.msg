@@ -1,1 +1,1 @@
-geometry_msgs/Point[80] points
+geometry_msgs/Point[400] points

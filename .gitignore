@@ -30,3 +30,5 @@ src/CMakeLists.txt
 src/demos/**
 src/test/**
 
+.vscode/
+src/feather/src/test.py

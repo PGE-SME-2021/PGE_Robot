@@ -18,6 +18,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 import pyqtgraph as pg
 import numpy as np
+from math import sqrt
 
 from mainwindow_frontend import Ui_MainWindow
 from tools import NodeSub
@@ -93,8 +94,8 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def get_lidar_data(self): #receives data from ROS using a timer 
         self.list_x = []
         self.list_y = []
-        #self.points_lidar = rospy.wait_for_message('/slam_cloud', PointCloud, timeout = 5)
-        self.points_lidar = rospy.wait_for_message('/lidar_points', LidarData, timeout = 5)
+        self.points_lidar = rospy.wait_for_message('/slam_cloud', PointCloud, timeout = 5)
+        #self.points_lidar = rospy.wait_for_message('/lidar_points', LidarData, timeout = 5)
         for point in self.points_lidar.points:
             self.list_x.append(point.x)
             self.list_y.append(point.y)
@@ -153,11 +154,13 @@ class MyMainWindow(QtWidgets.QMainWindow):
             pos_x = pos.x()
             pos_y = pos.y()
             print(pos_x, pos_y)
+            size_ = self.my_plot.size()
 
             #send_coordinates(pos_x, pos_y)
-            val_x = mapping(0, 488, -12, 12, pos_x)
-            val_y = mapping(235, 0, -12, 12, pos_y)
+            val_x = mapping(0, size_.width(), -12, 12, pos_x)
+            val_y = mapping(size_.height(), 0, -12, 12, pos_y)
             print(F"approx location (x = {val_x}m, y = {val_y}m)")
+            print(F"distance = {sqrt(val_x **2 + val_y **2)}")
 
 def mapping(min_init, max_init, min_fin, max_fin, value):
     m = float((max_fin - min_fin) / (max_init - min_init))

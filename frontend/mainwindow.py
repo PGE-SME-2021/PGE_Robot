@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\etudiant\Documents\KAHINA\ihm1\mainwindow.ui'
+# Form implementation generated from reading ui file 'C:\Users\etudiant\Documents\KAHINA\GUI_Robot\frontend\ihm2\mainwindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -33,7 +33,7 @@ class Ui_MainWindow(object):
         self.bouton_ONoff.setStyleSheet("background-color: rgb(255, 0, 0);\n"
 "font: 700 9pt \"Segoe UI\";")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/Desktop/interface/Bouton On-Off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/onoff.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bouton_ONoff.setIcon(icon)
         self.bouton_ONoff.setIconSize(QtCore.QSize(25, 25))
         self.bouton_ONoff.setObjectName("bouton_ONoff")
@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.bouton_WIfI.setStyleSheet("background-color: rgb(0, 0, 227);\n"
 "font: 700 9pt \"Segoe UI\";")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/Desktop/interface/Bouton Wifi.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/Wifi.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bouton_WIfI.setIcon(icon1)
         self.bouton_WIfI.setIconSize(QtCore.QSize(25, 25))
         self.bouton_WIfI.setObjectName("bouton_WIfI")
@@ -52,9 +52,9 @@ class Ui_MainWindow(object):
 "background-color: rgb(172, 172, 172);")
         self.bouton_home.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/Desktop/interface/Home button.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bouton_home.setIcon(icon2)
-        self.bouton_home.setIconSize(QtCore.QSize(50, 30))
+        self.bouton_home.setIconSize(QtCore.QSize(50, 35))
         self.bouton_home.setObjectName("bouton_home")
         self.line_2 = QtWidgets.QFrame(self.centralwidget)
         self.line_2.setGeometry(QtCore.QRect(-70, 390, 3, 61))
@@ -725,7 +725,7 @@ class Ui_MainWindow(object):
         self.bouton_avant.setStyleSheet("background-color: rgb(172, 172, 172);")
         self.bouton_avant.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/Desktop/interface/avant.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(":/avant.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bouton_avant.setIcon(icon3)
         self.bouton_avant.setIconSize(QtCore.QSize(20, 20))
         self.bouton_avant.setObjectName("bouton_avant")
@@ -736,7 +736,7 @@ class Ui_MainWindow(object):
         self.bouton_gauche.setStyleSheet("background-color: rgb(172, 172, 172);")
         self.bouton_gauche.setText("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/Desktop/interface/droite.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(":/gauche.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bouton_gauche.setIcon(icon4)
         self.bouton_gauche.setIconSize(QtCore.QSize(20, 20))
         self.bouton_gauche.setObjectName("bouton_gauche")
@@ -745,7 +745,7 @@ class Ui_MainWindow(object):
         self.bouton_droite.setStyleSheet("background-color: rgb(172, 172, 172);")
         self.bouton_droite.setText("")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/Desktop/interface/gauche.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":/droite.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bouton_droite.setIcon(icon5)
         self.bouton_droite.setIconSize(QtCore.QSize(20, 20))
         self.bouton_droite.setObjectName("bouton_droite")
@@ -756,7 +756,7 @@ class Ui_MainWindow(object):
 "")
         self.bouton_arriere.setText("")
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/Desktop/interface/deriere.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon6.addPixmap(QtGui.QPixmap(":/arriere .png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bouton_arriere.setIcon(icon6)
         self.bouton_arriere.setIconSize(QtCore.QSize(20, 20))
         self.bouton_arriere.setObjectName("bouton_arriere")
@@ -787,18 +787,18 @@ class Ui_MainWindow(object):
         self.bouton_manuel.setStyleSheet("background-color: rgb(172, 172, 172);")
         self.bouton_manuel.setText("")
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/Desktop/interface/png-transparent-computer-icons-product-manuals-the-iconfactory-manual-miscellaneous-hand-symbol-thumbnail.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap(":/manuel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bouton_manuel.setIcon(icon7)
-        self.bouton_manuel.setIconSize(QtCore.QSize(37, 28))
+        self.bouton_manuel.setIconSize(QtCore.QSize(37, 30))
         self.bouton_manuel.setObjectName("bouton_manuel")
         self.bouton_auto = QtWidgets.QPushButton(self.centralwidget)
         self.bouton_auto.setGeometry(QtCore.QRect(760, 350, 91, 51))
         self.bouton_auto.setStyleSheet("background-color: rgb(172, 172, 172);")
         self.bouton_auto.setText("")
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/Desktop/interface/1687753.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(QtGui.QPixmap(":/auto.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bouton_auto.setIcon(icon8)
-        self.bouton_auto.setIconSize(QtCore.QSize(53, 40))
+        self.bouton_auto.setIconSize(QtCore.QSize(53, 45))
         self.bouton_auto.setObjectName("bouton_auto")
         MainWindow.setCentralWidget(self.centralwidget)
 

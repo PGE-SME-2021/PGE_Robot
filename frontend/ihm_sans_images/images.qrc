@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../GUI_Robot/frontend/home.png</file>
+        <file>../GUI_Robot/frontend/manuel.png</file>
+        <file>../GUI_Robot/frontend/onoff.png</file>
+        <file>../GUI_Robot/frontend/Wifi.png</file>
+        <file>../GUI_Robot/frontend/arriere .png</file>
+        <file>../GUI_Robot/frontend/avant.png</file>
+        <file>../GUI_Robot/frontend/droite.png</file>
+        <file>../GUI_Robot/frontend/gauche.png</file>
+        <file>../GUI_Robot/frontend/auto.png</file>
+    </qresource>
+</RCC>

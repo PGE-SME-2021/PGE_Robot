@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../arriere .png</file>
+        <file>../auto.png</file>
+        <file>../avant.png</file>
+        <file>../droite.png</file>
+        <file>../gauche.png</file>
+        <file>../home.png</file>
+        <file>../manuel.png</file>
+        <file>../onoff.png</file>
+        <file>../Wifi.png</file>
+    </qresource>
+</RCC>

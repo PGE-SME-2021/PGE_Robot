@@ -46,7 +46,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow() #to create frontend widgets object
         self.ui.setupUi(self)
 
-        rospy.init_node('node')
+        rospy.init_node('main_gui_node')
         #self.ros.start_node()
         #self.ros.subscriber()
 
@@ -61,19 +61,16 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.timer.timeout.connect(self.get_lidar_data)
         self.timer.start()
 
-        #self.activate_ROSthread()
+        self.activate_ROSthread()
 
-        self.ui.pushButton_2.setCheckable(True)
+        '''self.ui.pushButton_2.setCheckable(True)
         self.ui.pushButton_2.toggle()
-        self.ui.pushButton_2.clicked.connect(self.btnstate)
+        self.ui.pushButton_2.clicked.connect(self.btnstate)'''
 
-<<<<<<< HEAD
-=======
         self.ui.pushButton_2.clicked.connect(self.down_click)
-        self.ui.pushButton_3.clicked.connect(self.another_click)
-        self.ui.pushButton_4.clicked.connect(self.otro_click)
-        self.ui.pushButton.clicked.connect(self.mas_click)
->>>>>>> 4181ae6827eb3dbd89ec79c79e65dd33a5bd0a42
+        self.ui.pushButton_3.clicked.connect(self.left_click)
+        self.ui.pushButton_4.clicked.connect(self.right_click)
+        self.ui.pushButton.clicked.connect(self.up_click)
 
         '''Init cartography widget'''
 
@@ -85,6 +82,11 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot = pg.PlotWidget()
         self.my_plot.getPlotItem().hideAxis('bottom')
         self.my_plot.getPlotItem().hideAxis('left')
+        self.my_plot.setRange(xRange = [0,1000], yRange = [0,1000])
+        self.my_plot.hideButtons()
+        self.my_plot.setBackground('w')
+        self.my_plot.setMinimumSize(800,650)
+        self.my_plot.setMaximumSize(800,650)
         self.ui.verticalLayout_4.addWidget(self.my_plot)
         self.plot = self.my_plot.plot(pen=None, symbolSize=5) #create an object "plot"
         self.my_plot.scene().sigMouseClicked.connect(self.mouse_clicked)  
@@ -108,7 +110,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
             self.msg = rospy.wait_for_message('/status', Status, timeout = 5)
             current_value = self.msg.battery
             if previous_value != current_value:
-                self.ui.label.setText(F"{self.msg.battery}")
+                self.ui.label_4.setText(F"{self.msg.battery}")
 
             previous_value = current_value
 
@@ -117,36 +119,24 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.worker.start()
 
     def down_click(self):
-<<<<<<< HEAD
-        sum_result = add_two_ints_client(1,2)
-        self.ui.label.setText(F"{sum_result}")
-
-    def btnstate(self):
-        if self.ui.pushButton_2.isChecked():
-            print('button is pressed')
-        else:
-            print('button was released')
-
-=======
         #self.ui.label.setText("Down")
         print("down")
         send_command_client(1)
 
-    def another_click(self):
+    def left_click(self):
         #left
-        print('2')
+        print('left')
         send_command_client(2)
 
-    def otro_click(self):
+    def right_click(self):
         #right
-        print('3')
+        print('right')
         send_command_client(3)
 
-    def mas_click(self):
+    def up_click(self):
         #up
-        print('4')
+        print('Up')
         send_command_client(4)
->>>>>>> 4181ae6827eb3dbd89ec79c79e65dd33a5bd0a42
 
 
 
@@ -172,8 +162,8 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     myMainWindow = MyMainWindow()
     myMainWindow.setWindowTitle("ROBOT_CONTROL")
-    #myMainWindow.setFixedSize(850,620)
-    myMainWindow.resize(850,620)
+    #myMainWindow.setFixedSize(1000,900)
+    myMainWindow.resize(1000,900)
     myMainWindow.show()
     sys.exit(app.exec_())
 

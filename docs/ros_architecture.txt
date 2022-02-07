@@ -2,6 +2,10 @@
 package feather{
 boundary QtFrame #palegreen
 node qt_node #palegreen
+note right 
+ROS_MASTER_URI=
+http://10.42.0.1:11311
+end note
 node coordinate_server 
 node motor_command_server
 node status_pub
@@ -13,7 +17,11 @@ interface robot_status
 
 package hector_slam{
 node slam_cloud
-interface points_cloud as points_cloud
+interface points_cloud [
+points_cloud/
+sensor_msgs.
+PointCloud
+]
 boundary lidar 
 
 slam_cloud -- lidar
@@ -31,7 +39,7 @@ qt_node <-left-> QtFrame
 points_cloud -left0)-> qt_node
 
 qt_node -0)-> motor_command_server
-motor_command_server .0).> qt_node
+motor_command_server .0).> qt_node 
 
 qt_node -0)-> coordinate_server
 coordinate_server .0).> qt_node

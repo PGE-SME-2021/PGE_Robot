@@ -1,0 +1,63 @@
+@startuml
+node Node
+component [Physical Component] as compo
+interface Topics
+rectangle Raspberry_exe as raspi
+rectangle Computer_exe as pc #palegreen
+rectangle ESP32_exe #red
+
+
+package feather{
+boundary QtFrame #palegreen
+node qt_node #palegreen
+note left
+ROS_MASTER_URI=
+http://10.42.0.1:11311
+end note
+node coordinate_server 
+node motor_command_server
+node status_pub
+component encoders #red
+component battery #red
+component ESP32
+interface robot_status
+}
+
+package hector_slam{
+node slam_cloud
+interface points_cloud [
+points_cloud/
+sensor_msgs.
+PointCloud
+]
+component Lidar 
+
+slam_cloud -- Lidar
+}
+
+Node -down- compo
+compo -down- Topics
+Topics -down- raspi
+raspi -down- pc
+pc -down- ESP32_exe
+
+status_pub <--> ESP32
+ESP32 -- encoders
+ESP32 -- battery
+
+coordinate_server -- ESP32
+motor_command_server -- ESP32
+
+status_pub -down-> robot_status
+robot_status -up0)-> qt_node
+
+slam_cloud -up-> points_cloud
+qt_node <-up-> QtFrame 
+points_cloud -left0)-> qt_node
+
+qt_node -0)-> motor_command_server
+motor_command_server .0).> qt_node 
+
+qt_node -0)-> coordinate_server
+coordinate_server .0).> qt_node
+@enduml

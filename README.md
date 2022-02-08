@@ -13,3 +13,6 @@ At We are going to divide our job in stages.
 Those stages are susceptible to change because we dont know exactly the problems that are going to appear in the way.
 ## Organisation
 For organisation we will use Issues to track the backlog and activities we will do. It is not fully mandatory but it will help a lot if we want to keep everything organized.
+## ROS Architecture
+
+![ros_architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PGE-SME-2021/GUI_Robot/PcAPI/docs/ros_architecture.iuml)

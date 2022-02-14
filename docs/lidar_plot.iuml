@@ -1,0 +1,15 @@
+@startuml
+actor User as user
+boundary QtFrame as qt_frame
+entity "/slam_cloud" as slam_cloud
+
+user -> qt_frame: Start()
+alt Received Message
+	slam_cloud -> qt_frame: point_cloud
+	qt_frame -> qt_frame: plot(point_cloud)
+	qt_frame -> user: map
+else timeout
+	qt_frame -> qt_frame: skip()
+	qt_frame -[#red]> user:  No data received
+end
+@enduml

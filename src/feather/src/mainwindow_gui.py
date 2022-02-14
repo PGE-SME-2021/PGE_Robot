@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 import sys
-import time 
+import time
 
 import rospy
 from feather.msg import Status, LidarData
@@ -108,7 +108,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot.setParent(None)
         self.ui.label.show()
 
-        cv_img = cv2.imread('/home/juanb/Documents/GUI_Robot/src/feather/src/cool_cat.jpg')
+        cv_img = cv2.imread('/home/juanb/Documents/GUI_Robot/src/feather/src/img1.jpg')
         
         # convert the image to Qt format
         qt_img = self.convert_cv_qt(cv_img)
@@ -158,36 +158,50 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.worker = Worker(self.get_Qthread_data)
         self.worker.start()
 
+    def adjust_screen(self, direction_list):
+        #[xmin, xmax, ymin, ymax]
+        self.x_plot[0] += direction_list[0]
+        self.x_plot[1] += direction_list[1]
+        self.y_plot[0] += direction_list[2]
+        self.y_plot[1] += direction_list[3]
+        self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
+        print(F"x = {self.x_plot}, y = {self.y_plot}")
+
     def down_click(self):
         #self.ui.label.setText("Down")
         print("down")
-        send_command_client(1)
+        #zoom out
+        self.adjust_screen([-self.step, self.step, -self.step, self.step])
+        #send_command_client(1)
 
     def left_click(self):
         #left
         print('left')
         send_command_client(2)
-        self.my_plot.setRange(xRange = [-12,12], yRange = [-12,12], disableAutoRange = True)
+        #move left
+        self.adjust_screen([-self.step, -self.step, 0, 0])
 
     def right_click(self):
         #right
+        #move rigth
+        self.adjust_screen([self.step, self.step, 0, 0])
         print('3')
         #send_command_client(3)
-        file_name = F"gui_{generate_file_name()}"
-        save_csv_data(file_name, self.points_lidar)
+        #file_name = F"gui_{generate_file_name()}"
+        #save_csv_data(file_name, self.points_lidar)
 
     def up_click(self):
         #up
         print('Up')
         send_command_client(4)
-
-
+        #zoom in
+        self.adjust_screen([self.step, -self.step, self.step, -self.step])
 
     #def setData(self, x, y):
      #   self.plotDataItem.setData(x, y)
 
     def onNewData(self, x, y):
-        #seria muy interesante hacer un cuadrito blanco de 13x13 para decir que ese es el robot para saber exactamente donde estamos y que es lo que estamos viendo
+        #seria muy interesante hacer un cuadrito blanco para decir que ese es el robot para saber exactamente donde estamos y que es lo que estamos viendo
         self.plot.setData(x,y)
 
     def mouse_clicked(self, mouseClickEvent):
@@ -200,8 +214,8 @@ class MyMainWindow(QtWidgets.QMainWindow):
             size_ = self.my_plot.size()
 
             #send_coordinates(pos_x, pos_y)
-            val_x = mapping(0, size_.width(), -12, 12, pos_x)
-            val_y = mapping(size_.height(), 0, -12, 12, pos_y)
+            val_x = mapping(0, size_.width(), self.x_plot[0], self.x_plot[1], pos_x)
+            val_y = mapping(size_.height(), 0, self.y_plot[0], self.y_plot[1], pos_y)
             print(F"approx location (x = {val_x}m, y = {val_y}m)")
             print(F"distance = {sqrt(val_x **2 + val_y **2)}")
 

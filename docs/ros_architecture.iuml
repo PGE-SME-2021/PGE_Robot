@@ -1,0 +1,51 @@
+@startuml
+package feather{
+boundary QtFrame #palegreen
+node qt_node #palegreen
+note right 
+ROS_MASTER_URI=
+http://10.42.0.1:11311
+end note
+node coordinate_server 
+node motor_command_server
+node status_pub
+component encoders #red
+component battery #red
+component ESP32
+interface robot_status
+}
+
+package hector_slam{
+node slam_cloud
+interface "points_cloud" as points_cloud
+component "Lidar" as lidar
+
+slam_cloud -- lidar
+}
+
+package kinnect{
+node camera_node_let_manager as camera_node
+interface camera_rgb_image_color as image
+component "Camera3D" as camera
+}
+camera -- camera_node
+camera_node --> image
+image -(0-> qt_node
+
+status_pub -down-> robot_status
+robot_status -up(0-> qt_node
+
+status_pub <--> ESP32
+ESP32 -- encoders
+ESP32 -- battery
+
+slam_cloud -up-> points_cloud
+qt_node <-left-> QtFrame 
+points_cloud -left(0-> qt_node
+
+qt_node -0)-> motor_command_server
+motor_command_server .0).> qt_node 
+
+qt_node -0)-> coordinate_server
+coordinate_server .0).> qt_node
+@enduml

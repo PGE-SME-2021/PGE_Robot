@@ -35,7 +35,6 @@ def save_csv_data(file_name, data):
 def read_csv_data(file_name):
     file_handle = open(file_name, 'r', encoding='utf-8')
     csv_reader = csv.DictReader(file_handle)
-    print(csv_reader)
     point_cloud = []
     for row in csv_reader:
         point_cloud.append(Point(row['x'], row[' y']))

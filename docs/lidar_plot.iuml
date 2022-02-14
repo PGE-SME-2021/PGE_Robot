@@ -1,15 +1,9 @@
 @startuml
 actor User as user
 boundary QtFrame as qt_frame
-database ROS_MASTER as ros_master
-note over ros_master
-ROS_MASTER_URI=
-http://10.42.0.1:11311
-end note
+entity "/slam_cloud" as slam_cloud
 
 user -> qt_frame: Start()
-qt_frame -> ros_master: register()
-entity "/slam_cloud" as slam_cloud
 alt Received Message
 	slam_cloud -> qt_frame: point_cloud
 	qt_frame -> qt_frame: plot(point_cloud)

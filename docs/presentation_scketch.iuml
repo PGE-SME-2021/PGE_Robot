@@ -1,0 +1,70 @@
+@startuml
+cloud START
+package Hardware{
+	stack Robot as robot
+	START --> robot
+	interface intro
+	stack Sensors as sensors
+	interface lidar
+	interface camera3d
+	interface encoders
+	stack Actuators as actuators
+	interface motors
+	stack ProcessingDevices as devs
+	interface esp32
+	interface raspi
+
+	stack Board as board
+	note top
+	Here we show
+	all connections
+	and stuff
+	end note
+	
+	board -- power
+	board -- connections
+	board -- electrical_schematics
+
+
+	robot -- intro
+
+	sensors -- lidar
+	sensors -- camera3d
+	sensors -- encoders
+	sensors -- gyroscope
+
+	actuators -- motors
+	actuators -- lights
+
+	devs -- esp32
+	devs -- raspi
+}
+
+package software{
+	stack Esp32IDE as ide
+	note left
+		How was Esp32
+		programmed
+	end note
+	ide -- read_encoders
+	ide -- rs232
+	ide -- send_data
+	
+
+	stack ROS as ros
+	ros -- hector_slam
+	ros -- camera_node
+	ros -- navigation
+	ros -- qt_node
+	note left
+		How data is receved
+		and sent
+	end note
+}
+robot -down-> sensors
+sensors -down-> actuators
+actuators -down-> devs
+devs -down-> board
+board -down-> ide
+ide --> ros
+@enduml

@@ -65,10 +65,11 @@ class MyMainWindow(QtWidgets.QMainWindow):
 
         self.display_width = 640
         self.display_height = 480
+        self.bgr_frame = QPixmap(self.display_width, self.display_height)
 
         self.timer = QTimer()
         self.timer.setInterval(1000)
-        self.timer.timeout.connect(self.get_lidar_data)
+        self.timer.timeout.connect(self.start_data_acquisition)
         self.timer.start()
 
         self.activate_ROSthread()
@@ -95,28 +96,23 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot = pg.PlotWidget()
         self.my_plot.getPlotItem().hideAxis('bottom')
         self.my_plot.getPlotItem().hideAxis('left')
-        self.my_plot.setRange(xRange = [-12,12], yRange = [-12,12], disableAutoRange = True)
+        self.x_plot = [-12, 12]
+        self.y_plot = [-12, 12]
+        self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
+        self.my_plot.hideButtons()
         self.ui.verticalLayout.addWidget(self.my_plot)
-        self.plot = self.my_plot.plot(pen=None, symbolSize=5) #create an object "plot"
+        self.plot = self.my_plot.plot(pen=None, symbolSize=5, symbolBrush='b') #create an object "plot"
+        self.plot_center = self.my_plot.plot(pen=None, symbol='+', symbolSize=10, symbolBrush='w') #create an object "plot"
+        self.plot_center.setData([0],[0])
         self.my_plot.scene().sigMouseClicked.connect(self.mouse_clicked)
+    
+    def start_data_acquisition(self):
+        self.get_lidar_data()
+        self.get_camera_data()
     
     def show_lidar_data(self):
         self.ui.label.hide()
         self.ui.verticalLayout.addWidget(self.my_plot)
-
-    def show_camera_data(self):
-        self.my_plot.setParent(None)
-        self.ui.label.show()
-
-        cv_img = cv2.imread('/home/juanb/Documents/GUI_Robot/src/feather/src/img1.jpg')
-        
-        # convert the image to Qt format
-        qt_img = self.convert_cv_qt(cv_img)
-        self.ui.label.setPixmap(qt_img)
-
-        '''grey = QPixmap(self.display_width, self.display_height)
-        grey.fill(QColor('darkGray'))
-        self.ui.label.setPixmap(grey)'''
 
     def get_timer_data(self): #receives data from ROS using a timer 
         self.msg = rospy.wait_for_message('/status', Status, timeout = 5)
@@ -125,21 +121,36 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def get_lidar_data(self): #receives data from ROS using a timer 
         self.list_x = []
         self.list_y = []
+        self.step = 0.5
         #self.points_lidar = rospy.wait_for_message('/slam_cloud', PointCloud, timeout = 5)
         self.points_lidar = rospy.wait_for_message('/lidar_points', LidarData, timeout = 5)
         for point in self.points_lidar.points:
             self.list_x.append(point.x)
             self.list_y.append(point.y)
-        self.onNewData(self.list_x, self.list_y)
+        #self.onNewData(self.list_x, self.list_y)
+        self.plot.setData(self.list_x, self.list_y)
     
     def get_camera_data(self): #receives data from ROS using a timer 
-        self.data = rospy.wait_for_message('/camera/rgb/image_color', Image, timeout = 5)
+        self.data = rospy.wait_for_message('/image_sim', Image, timeout = 5)
         
-        br = CvBridge()                                                 #convert between ROS and OpenCV images
-        current_frame = br.imgmsg_to_cv2(self.data)                          #convert ROS image message to OpenCV image
-        bgr_frame = cv2.cvtColor(current_frame, cv2.COLOR_BGRA2BGR)
+        br = CvBridge()                                                 
+        current_frame = br.imgmsg_to_cv2(self.data)                          
+        self.bgr_frame = cv2.cvtColor(current_frame, cv2.COLOR_BGRA2BGR)
         #cv2.imshow("Camera Kinect", bgr_frame)
         cv2.waitKey(1)
+    
+    def show_camera_data(self):
+        self.my_plot.setParent(None)
+        self.ui.label.show()
+
+        #cv_img = cv2.imread('/home/juanb/Documents/GUI_Robot/src/feather/src/img1.jpg')
+        # convert the image to Qt format
+        qt_img = self.convert_cv_qt(self.bgr_frame)
+        self.ui.label.setPixmap(qt_img)
+
+        '''grey = QPixmap(self.display_width, self.display_height)
+        grey.fill(QColor('darkGray'))
+        self.ui.label.setPixmap(grey)'''
 
     def get_Qthread_data(self):
         previous_value = -1
@@ -200,9 +211,8 @@ class MyMainWindow(QtWidgets.QMainWindow):
     #def setData(self, x, y):
      #   self.plotDataItem.setData(x, y)
 
-    def onNewData(self, x, y):
-        #seria muy interesante hacer un cuadrito blanco para decir que ese es el robot para saber exactamente donde estamos y que es lo que estamos viendo
-        self.plot.setData(x,y)
+    '''def onNewData(self, x, y):
+        self.plot.setData(x,y)'''
 
     def mouse_clicked(self, mouseClickEvent):
         self.button_pressed = mouseClickEvent.button()

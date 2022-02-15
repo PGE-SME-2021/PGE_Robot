@@ -225,20 +225,9 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(add_two_ints_server src/add_two_ints_server.cpp)
-target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
-add_dependencies(add_two_ints_server feather_gencpp)
-
-
 #add_executable(add_three src/add_three_ints_server.cpp)
 #target_link_libraries(add_three ${catkin_LIBRARIES})
 #add_dependencies(add_three feather_gencpp)
-
-
-add_executable(motor_command_service src/motor_command_service.cpp)
-target_link_libraries(motor_command_service ${catkin_LIBRARIES})
-add_dependencies(motor_command_service feather_gencpp)
-
 
 #add_executable(pub src/pub.cpp)
 #target_link_libraries(pub ${catkin_LIBRARIES})

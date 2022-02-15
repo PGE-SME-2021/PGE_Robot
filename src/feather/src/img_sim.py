@@ -13,7 +13,7 @@ def publisher():
     msg_to_publish = Image()
     BASE_DIR = Path(__file__).resolve().parent
     print(BASE_DIR)
-    file_name = F"{BASE_DIR}/img1.jpg"
+    file_name = F"{BASE_DIR}/img1.png"
     img = cv2.imread(file_name)
     bridge = CvBridge()
     img_msg = bridge.cv2_to_imgmsg(img, encoding = 'passthrough')

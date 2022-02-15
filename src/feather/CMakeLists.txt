@@ -182,6 +182,7 @@ include_directories(
  catkin_install_python(PROGRAMS
    src/service_client.py
    src/motor_command_client.py
+   src/coordinate_client.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 

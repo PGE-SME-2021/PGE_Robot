@@ -1,7 +1,11 @@
 // library
 #include "ros/ros.h"
 
+<<<<<<< HEAD
 #include "serial/serial.h"
+=======
+//#include "serial/serial.h"
+>>>>>>> 1171d87ae0bd3c4028e17f1277f1876f044f346d
 #include "stdio.h"
 #include "feather/SendCommand.h"
 #include "serial_cmd.cpp"

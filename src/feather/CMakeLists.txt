@@ -67,7 +67,7 @@ add_message_files(
   SendCommand.srv
   AddThreeInts.srv
   PathPlanning.srv
-
+  AddThreeInts.srv
 #   Service1.srv
 #   Service2.srv
  )
@@ -153,7 +153,6 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/feather_node.cpp)
 
-
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -163,11 +162,6 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
 # )
 
 #############
@@ -276,4 +270,15 @@ add_dependencies(lidar_simulator feather_generate_messages_cpp)
 add_executable(motor_node src/status_node.cpp)
 target_link_libraries(motor_node ${catkin_LIBRARIES})
 add_dependencies(motor_node feather_generate_messages_cpp)
+
+
+add_executable(communication src/communication.cpp)
+target_link_libraries(communication  ${catkin_LIBRARIES})
+add_dependencies(communication feather_gencpp)
+
+
+add_executable(add_two_ints_server src/add_two_ints_server.cpp)
+target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
+add_dependencies(add_two_ints_server feather_gencpp)
+
 

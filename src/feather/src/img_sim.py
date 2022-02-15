@@ -12,14 +12,21 @@ def publisher():
     rate = rospy.Rate(0.5)
     msg_to_publish = Image()
     BASE_DIR = Path(__file__).resolve().parent
-    print(BASE_DIR)
-    file_name = F"{BASE_DIR}/img1.jpg"
-    img = cv2.imread(file_name)
-    bridge = CvBridge()
-    img_msg = bridge.cv2_to_imgmsg(img, encoding = 'passthrough')
     while not rospy.is_shutdown():
+        file_name = F"{BASE_DIR}/img1.jpg"
+        print(file_name)
+        img = cv2.imread(file_name)
+        bridge = CvBridge()
+        img_msg = bridge.cv2_to_imgmsg(img, encoding = 'passthrough')
         pub.publish(img_msg)
-        print(F'image')
+        time.sleep(4)
+        #-------------------------------------
+        file_name = F"{BASE_DIR}/img2.jpg"
+        print(file_name)
+        img = cv2.imread(file_name)
+        bridge = CvBridge()
+        img_msg = bridge.cv2_to_imgmsg(img, encoding = 'passthrough')
+        pub.publish(img_msg)
         time.sleep(4)
 
 

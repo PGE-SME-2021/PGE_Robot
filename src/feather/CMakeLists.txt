@@ -67,7 +67,7 @@ add_message_files(
   SendCommand.srv
   AddThreeInts.srv
   PathPlanning.srv
-
+  AddThreeInts.srv
 #   Service1.srv
 #   Service2.srv
  )

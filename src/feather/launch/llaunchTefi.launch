@@ -1,0 +1,22 @@
+<launch>
+
+<node pkg="itial_position_pub" name="positions" type="click_to_2d" output="screen">
+</node> 
+
+<node pkg="feather" name="status_pub" type="status_sender.py" output="screen">
+</node>
+
+<node pkg="feather" name="lidar_pub" type="lidar_simulator.py" output="screen">
+</node>
+
+<node pkg="feather" name="camera_node" type="img_sim.py" output="screen">
+</node> 
+
+<node pkg="feather" name="coordinate_server" type="coordinate_server" output="screen">
+</node> 
+
+<node pkg="feather" name="communication_server" type="communication" output="screen">
+</node> 
+
+
+</launch>

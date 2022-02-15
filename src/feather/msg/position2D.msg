@@ -1,0 +1,2 @@
+float x
+float y

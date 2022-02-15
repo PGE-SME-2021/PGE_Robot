@@ -102,7 +102,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot.hideButtons()
         self.ui.verticalLayout.addWidget(self.my_plot)
         self.plot = self.my_plot.plot(pen=None, symbolSize=5, symbolBrush='b') #create an object "plot"
-        self.plot_center = self.my_plot.plot(pen=None, symbol='+', symbolSize=10, symbolBrush='w') #create an object "plot"
+        self.plot_center = self.my_plot.plot(pen=None, symbol='+', symbolSize=12, symbolBrush='w') #create an object "plot"
         self.plot_center.setData([0],[0])
         self.my_plot.scene().sigMouseClicked.connect(self.mouse_clicked)
     
@@ -263,7 +263,7 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     myMainWindow = MyMainWindow()
-    myMainWindow.setWindowTitle("ROBOT_CONTROL")
+    myMainWindow.setWindowTitle("OPEN INDUS ROBOT")
     #myMainWindow.setFixedSize(1000,900)
     myMainWindow.resize(1000,900)
     myMainWindow.show()

@@ -14,6 +14,7 @@ note right
 - Lidar
 - Camera3d
 - Encoders
+- IMU
 end note
 
 :Processing Devices;
@@ -28,6 +29,7 @@ note right
 - Power
 - Battery
 - Hardware designs
+- H bridge
 end note
 }
 partition Software {

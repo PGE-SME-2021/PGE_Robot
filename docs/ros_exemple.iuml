@@ -1,0 +1,17 @@
+@startuml
+package messages{
+node Node1
+interface topic
+node Node2
+}
+package services{
+node Node3
+node Node4
+}
+Node1 --> topic
+topic --> Node2
+
+
+Node3 --> Node4
+Node4 ..> Node3
+@enduml

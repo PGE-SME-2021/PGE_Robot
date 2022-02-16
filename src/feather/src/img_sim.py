@@ -13,21 +13,14 @@ def publisher():
     msg_to_publish = Image()
     BASE_DIR = Path(__file__).resolve().parent
     while not rospy.is_shutdown():
-        file_name = F"{BASE_DIR}/img1.jpg"
-        print(file_name)
-        img = cv2.imread(file_name)
-        bridge = CvBridge()
-        img_msg = bridge.cv2_to_imgmsg(img, encoding = 'passthrough')
-        pub.publish(img_msg)
-        time.sleep(4)
-        #-------------------------------------
-        file_name = F"{BASE_DIR}/img2.jpg"
-        print(file_name)
-        img = cv2.imread(file_name)
-        bridge = CvBridge()
-        img_msg = bridge.cv2_to_imgmsg(img, encoding = 'passthrough')
-        pub.publish(img_msg)
-        time.sleep(4)
+        for i in range(1,5):
+            file_name = F"{BASE_DIR}/img{i}.jpg"
+            print(file_name)
+            img = cv2.imread(file_name)
+            bridge = CvBridge()
+            img_msg = bridge.cv2_to_imgmsg(img, encoding = 'passthrough')
+            pub.publish(img_msg)
+            time.sleep(2)
 
 
 if __name__ == '__main__':

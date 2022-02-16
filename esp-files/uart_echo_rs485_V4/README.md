@@ -73,10 +73,10 @@ Verify if echo indeed comes from ESP32 by disconnecting either `TxD` or `RxD` pi
 Example output of the application:
 ```
 I (655020) RS485_ECHO_APP: Received 12 bytes:
-[ 230 230 ]
+[ 230 230 230 230]
 2
 Le robot recule
-[ 230 230]
+[ 230 230 230 230]
 ```
 The received message is showed in uint8_t form in the brackets.
 

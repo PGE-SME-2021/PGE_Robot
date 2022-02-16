@@ -78,10 +78,11 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.ui.pushButton_2.toggle()
         self.ui.pushButton_2.clicked.connect(self.btnstate)'''
 
-        '''self.ui.pushButton_2.clicked.connect(self.down_click)
-        self.ui.pushButton_3.clicked.connect(self.left_click)
-        self.ui.pushButton_4.clicked.connect(self.right_click)
-        self.ui.pushButton.clicked.connect(self.up_click)'''
+        self.ui.pushButton_10.clicked.connect(self.right_click)#right
+        self.ui.pushButton.clicked.connect(self.stop_click)#stop
+        self.ui.pushButton_9.clicked.connect(self.left_click)#left
+        self.ui.pushButton_8.clicked.connect(self.down_click)#down
+        self.ui.pushButton_4.clicked.connect(self.up_click)#up
         self.ui.comboBox.currentTextChanged.connect(self.on_combobox_data_changed)
         self.ui.comboBox_2.currentTextChanged.connect(self.on_combobox_mode_changed)
         self.ui.frame_5.setVisible(False)  
@@ -131,13 +132,16 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.plot.setData(self.list_x, self.list_y)
     
     def get_camera_data(self): #receives data from ROS using a timer 
-        self.data = rospy.wait_for_message('/image_sim', Image, timeout = 5)
-        
-        br = CvBridge()                                                 
-        current_frame = br.imgmsg_to_cv2(self.data)                          
-        self.bgr_frame = cv2.cvtColor(current_frame, cv2.COLOR_BGRA2BGR)
-        #cv2.imshow("Camera Kinect", bgr_frame)
-        cv2.waitKey(1)
+        try:
+            self.data = rospy.wait_for_message('/image_sim', Image, timeout = 5)
+            
+            br = CvBridge()                                                 
+            current_frame = br.imgmsg_to_cv2(self.data)                          
+            self.bgr_frame = cv2.cvtColor(current_frame, cv2.COLOR_BGRA2BGR)
+            #cv2.imshow("Camera Kinect", bgr_frame)
+            cv2.waitKey(1)
+        except Exception as e:
+            print(e)
     
     def show_camera_data(self):
         self.my_plot.setParent(None)
@@ -182,31 +186,35 @@ class MyMainWindow(QtWidgets.QMainWindow):
         #self.ui.label.setText("Down")
         print("down")
         #zoom out
-        self.adjust_screen([-self.step, self.step, -self.step, self.step])
-        #send_command_client(1)
+        #self.adjust_screen([-self.step, self.step, -self.step, self.step])
+        send_command_client(2,230,230)
+
+    def stop_click(self):
+        print("stop")
+        send_command_client(5,230,230)
 
     def left_click(self):
         #left
         print('left')
-        send_command_client(2)
+        send_command_client(4,230,230)
         #move left
-        self.adjust_screen([-self.step, -self.step, 0, 0])
+        #self.adjust_screen([-self.step, -self.step, 0, 0])
 
     def right_click(self):
         #right
         #move rigth
-        self.adjust_screen([self.step, self.step, 0, 0])
+        #self.adjust_screen([self.step, self.step, 0, 0])
         print('3')
-        #send_command_client(3)
+        send_command_client(3,230,230)
         #file_name = F"gui_{generate_file_name()}"
         #save_csv_data(file_name, self.points_lidar)
 
     def up_click(self):
         #up
         print('Up')
-        send_command_client(4)
+        send_command_client(1,230,230)
         #zoom in
-        self.adjust_screen([self.step, -self.step, self.step, -self.step])
+        #self.adjust_screen([self.step, -self.step, self.step, -self.step])
 
     #def setData(self, x, y):
      #   self.plotDataItem.setData(x, y)

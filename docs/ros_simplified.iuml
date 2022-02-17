@@ -1,0 +1,22 @@
+@startuml
+node "IHM" as qt_node #palegreen
+
+component encoders 
+component battery 
+component ESP32
+component motors
+
+component "Lidar" as lidar
+
+component "Camera3D" as camera
+
+qt_node <-up- camera
+qt_node <-up- lidar
+qt_node <-- ESP32
+qt_node --> ESP32
+
+ESP32 --> motors
+
+battery -up-> ESP32
+encoders -up-> ESP32
+@enduml

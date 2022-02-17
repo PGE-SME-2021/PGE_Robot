@@ -1,0 +1,57 @@
+@startuml
+start
+partition Hardware {
+:Robot;
+
+note right
+Introduction to robot
+What was proposed
+What we wanted to do
+end note
+
+:Sensors;
+note right
+- Lidar
+- Camera3d
+- Encoders
+- IMU
+end note
+
+:Processing Devices;
+note right
+- ESP32
+- Raspberry
+end note
+
+:Board and Connections;
+note right
+- Board
+- Power
+- Battery
+- Hardware designs
+- H bridge
+end note
+}
+partition Software {
+:ESP32 IDE;
+note right
+- IDE
+- Read Encoders
+- Rs232 communication
+- Data Exchange
+- Motor control
+end note
+
+:ROS;
+note right
+- ROS intro
+- hector_slam
+- picamera3D
+- feather
+- Qt
+end note
+}
+:Developing problems;
+:Results;
+stop
+@enduml

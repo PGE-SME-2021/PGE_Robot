@@ -1,0 +1,18 @@
+@startuml
+actor User as user
+boundary QtFrame as qt_frame
+entity motor_command_server as server
+
+user -> qt_frame: start()
+user -> qt_frame: push_button(direction)
+qt_frame -> server: send_command(com, speed1, speed2)
+server -> esp32: send_serial_cmd_vitesse_motor( speed1, speed2);
+alt succesfull_communication
+	esp32 -> motor: move()
+	motor -> motor: move()
+	esp32 --> server: [ok]
+else error
+	esp32 --> server: [error]
+	server --> user: [error]
+end
+@enduml

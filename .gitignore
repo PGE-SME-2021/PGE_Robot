@@ -18,3 +18,22 @@ venv/**
 **.swp
 **.swo
 **.swa
+
+#ros env files
+build/
+devel/
+.catkin_workspace
+token
+src/CMakeLists.txt
+
+#test packages
+src/demos/**
+src/test/**
+
+.vscode/
+src/feather/src/test.py
+
+#data files
+src/feather/data/**
+html/
+latex/

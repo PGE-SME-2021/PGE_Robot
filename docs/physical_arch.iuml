@@ -1,0 +1,17 @@
+@startuml
+component "Computer" as computer
+component "Raspberry" as raspi
+component "ESP32" as esp32
+component "Motors" as motors
+component "Encoders" as encoders
+component "Lidar" as lidar
+component [Camera3D\nKinect] as camera
+
+computer <-right(0)-> raspi
+raspi <-right-> esp32
+esp32 -right-> motors
+lidar -up-> raspi
+camera -up-> raspi
+encoders --> esp32
+encoders <-- motors
+@enduml

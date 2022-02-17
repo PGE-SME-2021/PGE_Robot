@@ -21,7 +21,8 @@ def receive_message():
 
     rospy.init_node('kinect_sub_py', anonymous=True)
 
-    rospy.Subscriber('camera/rgb/image_color', Image, callback)     #subscribing to the camera/rgb/image_color topic
+    #rospy.Subscriber('camera/rgb/image_color', Image, callback)     #subscribing to the camera/rgb/image_color topic
+    rospy.Subscriber('image_sim', Image, callback)     #subscribing to the camera/rgb/image_color topic
 
     rospy.spin()
 

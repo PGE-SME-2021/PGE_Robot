@@ -1,14 +1,14 @@
 @startuml
 actor User as user
 boundary QtFrame as qt_frame
-entity "/slam_cloud" as slam_cloud
+entity "/camera_node_let_manager" as slam_cloud
 
 user -> qt_frame: Start()
 activate qt_frame
 alt Received Message
-	slam_cloud -> qt_frame: point_cloud
-	qt_frame -> qt_frame: plot(point_cloud)
-	qt_frame -> user: map
+	slam_cloud -> qt_frame: [image]
+	qt_frame -> qt_frame: display(image)
+	qt_frame -> user: Image
 else timeout
 	qt_frame -> qt_frame: skip()
 	qt_frame -[#red]> user:  No data received

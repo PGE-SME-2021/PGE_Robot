@@ -1,3 +1,5 @@
-int64 com
+int16 vitesse1
+int16 vitesse2
+int16 command
 ---
 int64 check

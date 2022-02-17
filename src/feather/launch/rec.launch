@@ -1,6 +1,6 @@
 <launch>
 
-<env name="ROS_MASTER_URI" value="http://10.42.0.1:11311"/>
+<env name="ROS_MASTER_URI" value="http://10.42.0.254:11311"/>
 
 <node pkg="feather" name="Qt_node" type="mainwindow_gui.py" output="screen">
 </node> 

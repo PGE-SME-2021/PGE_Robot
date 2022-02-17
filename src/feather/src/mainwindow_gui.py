@@ -130,19 +130,21 @@ class MyMainWindow(QtWidgets.QMainWindow):
             self.list_y.append(point.y)
         #self.onNewData(self.list_x, self.list_y)
         self.plot.setData(self.list_x, self.list_y)
-    
+
+    ## Get Camera data Thread
+    # This function waits for a message in '/image_sim' node
+    # @param self object pointer
     def get_camera_data(self): #receives data from ROS using a timer 
         try:
             self.data = rospy.wait_for_message('/image_sim', Image, timeout = 5)
-            
-            br = CvBridge()                                                 
-            current_frame = br.imgmsg_to_cv2(self.data)                          
+            br = CvBridge()
+            current_frame = br.imgmsg_to_cv2(self.data)
             self.bgr_frame = cv2.cvtColor(current_frame, cv2.COLOR_BGRA2BGR)
             #cv2.imshow("Camera Kinect", bgr_frame)
             cv2.waitKey(1)
         except Exception as e:
             print(e)
-    
+
     def show_camera_data(self):
         self.my_plot.setParent(None)
         self.ui.label.show()
@@ -173,6 +175,10 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.worker = Worker(self.get_Qthread_data)
         self.worker.start()
 
+    ## Adjust Screen
+    # This function is used to change lidar widget size.
+    # @param self object pointer
+    # @param direction_list This gets a list of 4 numbers that increase or decrease the lidar widget point of view like this [2, 3, -3, -1]
     def adjust_screen(self, direction_list):
         #[xmin, xmax, ymin, ymax]
         self.x_plot[0] += direction_list[0]
@@ -182,46 +188,36 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
         print(F"x = {self.x_plot}, y = {self.y_plot}")
 
+    ## Down function
+    # When down button is pressed this makes the robot go backward.
     def down_click(self):
-        #self.ui.label.setText("Down")
-        print("down")
-        #zoom out
-        #self.adjust_screen([-self.step, self.step, -self.step, self.step])
         send_command_client(2,230,230)
 
+    ## Stop function
+    # When stop button is pressed this makes the motors stop.
     def stop_click(self):
-        print("stop")
         send_command_client(5,230,230)
 
+    ## Left button
+    # When left button is pressed this makes the robot turn left.
     def left_click(self):
-        #left
-        print('left')
         send_command_client(4,230,230)
-        #move left
-        #self.adjust_screen([-self.step, -self.step, 0, 0])
 
+    ## Right button
+    # When right button is pressed this makes the robot turns right.
     def right_click(self):
-        #right
-        #move rigth
-        #self.adjust_screen([self.step, self.step, 0, 0])
-        print('3')
         send_command_client(3,230,230)
-        #file_name = F"gui_{generate_file_name()}"
-        #save_csv_data(file_name, self.points_lidar)
 
+    ## Up button
+    # When right button is pressed this makes the robot move forward.
     def up_click(self):
-        #up
-        print('Up')
         send_command_client(1,230,230)
-        #zoom in
-        #self.adjust_screen([self.step, -self.step, self.step, -self.step])
-
-    #def setData(self, x, y):
-     #   self.plotDataItem.setData(x, y)
 
     '''def onNewData(self, x, y):
         self.plot.setData(x,y)'''
 
+    ## Send map coordinate
+    # When we click on the lidar widget this sends the relative coordinate of the robot.
     def mouse_clicked(self, mouseClickEvent):
         self.button_pressed = mouseClickEvent.button()
         if self.button_pressed == 1:
@@ -236,6 +232,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
             val_y = mapping(size_.height(), 0, self.y_plot[0], self.y_plot[1], pos_y)
             print(F"approx location (x = {val_x}m, y = {val_y}m)")
             print(F"distance = {sqrt(val_x **2 + val_y **2)}")
+            send_coordinates(val_x, val_y)
 
     def on_combobox_mode_changed(self, text):
         if text == "Semi-Automatic Mode":
@@ -260,7 +257,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         convert_to_Qt_format = QtGui.QImage(rgb_image.data, w, h, bytes_per_line, QtGui.QImage.Format_RGB888)
         p = convert_to_Qt_format.scaled(self.display_width, self.display_height, Qt.KeepAspectRatio)
         return QPixmap.fromImage(p)
-            
+
 
 def mapping(min_init, max_init, min_fin, max_fin, value):
     m = float((max_fin - min_fin) / (max_init - min_init))
@@ -268,7 +265,8 @@ def mapping(min_init, max_init, min_fin, max_fin, value):
 
 
 if __name__ == '__main__':
-
+    '''Main function
+    '''
     app = QApplication(sys.argv)
     myMainWindow = MyMainWindow()
     myMainWindow.setWindowTitle("OPEN INDUS ROBOT")

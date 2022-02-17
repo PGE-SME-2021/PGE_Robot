@@ -1,11 +1,7 @@
 // library
 #include "ros/ros.h"
 
-<<<<<<< HEAD
-#include "serial/serial.h"
-=======
 //#include "serial/serial.h"
->>>>>>> 1171d87ae0bd3c4028e17f1277f1876f044f346d
 #include "stdio.h"
 #include "feather/SendCommand.h"
 #include "serial_cmd.cpp"
@@ -37,10 +33,6 @@ bool raspi_to_esp(feather::SendCommand::Request  &req,
     ROS_INFO("request: vitesse2=%ld", (long int)req.vitesse2);
     ROS_INFO("sending back response: [%ld]", (long  int)res.check);
   return true;
-}
-
-void odomCallback(){
-	ROS_INFO("Data odometrie receive"); // = printf 
 }
 
 int main(int argc, char **argv){

@@ -21,6 +21,7 @@ import numpy as np
 from math import sqrt
 
 from mainwindow_frontend import Ui_MainWindow
+from widget_frontend import Ui_Widget
 from tools import NodeSub
 from motor_command_client import send_command_client
 from coordinate_client import send_coordinates
@@ -78,18 +79,12 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.ui.pushButton_2.toggle()
         self.ui.pushButton_2.clicked.connect(self.btnstate)'''
 
-<<<<<<< HEAD
-        self.ui.pushButton_10.clicked.connect(self.right_click)
-        '''self.ui.pushButton_3.clicked.connect(self.left_click)
-        self.ui.pushButton_4.clicked.connect(self.right_click)
-        self.ui.pushButton.clicked.connect(self.up_click)'''
-=======
+        self.ui.pushButton_2.clicked.connect(self.settings_menu)#settings
         self.ui.pushButton_10.clicked.connect(self.right_click)#right
         self.ui.pushButton.clicked.connect(self.stop_click)#stop
         self.ui.pushButton_9.clicked.connect(self.left_click)#left
         self.ui.pushButton_8.clicked.connect(self.down_click)#down
         self.ui.pushButton_4.clicked.connect(self.up_click)#up
->>>>>>> a43a3bc4a16986ad290aade8ce7b6a886b9d1896
         self.ui.comboBox.currentTextChanged.connect(self.on_combobox_data_changed)
         self.ui.comboBox_2.currentTextChanged.connect(self.on_combobox_mode_changed)
         self.ui.frame_5.setVisible(False)  
@@ -188,6 +183,14 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.y_plot[1] += direction_list[3]
         self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
         print(F"x = {self.x_plot}, y = {self.y_plot}")
+    
+    def settings_menu(self):
+        self.settings_gui = QtWidgets.QDialog()
+        self.settings_gui.ui = Ui_Widget()
+        self.settings_gui.ui.setupUi(self.settings_gui)
+        self.settings_gui.setWindowTitle("Robot settings")
+        #self.settings_gui.setWindowIcon(QtGui.QIcon("image.ico"))
+        self.settings_gui.show() 
 
     def down_click(self):
         #self.ui.label.setText("Down")

@@ -35,3 +35,5 @@ src/feather/src/test.py
 
 #data files
 src/feather/data/**
+html/
+latex/

@@ -78,8 +78,8 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.ui.pushButton_2.toggle()
         self.ui.pushButton_2.clicked.connect(self.btnstate)'''
 
-        '''self.ui.pushButton_2.clicked.connect(self.down_click)
-        self.ui.pushButton_3.clicked.connect(self.left_click)
+        self.ui.pushButton_10.clicked.connect(self.right_click)
+        '''self.ui.pushButton_3.clicked.connect(self.left_click)
         self.ui.pushButton_4.clicked.connect(self.right_click)
         self.ui.pushButton.clicked.connect(self.up_click)'''
         self.ui.comboBox.currentTextChanged.connect(self.on_combobox_data_changed)

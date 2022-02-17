@@ -21,6 +21,7 @@ import numpy as np
 from math import sqrt
 
 from mainwindow_frontend import Ui_MainWindow
+from widget_frontend import Ui_Widget
 from tools import NodeSub
 from motor_command_client import send_command_client
 from coordinate_client import send_coordinates
@@ -78,6 +79,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.ui.pushButton_2.toggle()
         self.ui.pushButton_2.clicked.connect(self.btnstate)'''
 
+        self.ui.pushButton_2.clicked.connect(self.settings_menu)#settings
         self.ui.pushButton_10.clicked.connect(self.right_click)#right
         self.ui.pushButton.clicked.connect(self.stop_click)#stop
         self.ui.pushButton_9.clicked.connect(self.left_click)#left
@@ -187,6 +189,14 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.y_plot[1] += direction_list[3]
         self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
         print(F"x = {self.x_plot}, y = {self.y_plot}")
+    
+    def settings_menu(self):
+        self.settings_gui = QtWidgets.QDialog()
+        self.settings_gui.ui = Ui_Widget()
+        self.settings_gui.ui.setupUi(self.settings_gui)
+        self.settings_gui.setWindowTitle("Robot settings")
+        #self.settings_gui.setWindowIcon(QtGui.QIcon("image.ico"))
+        self.settings_gui.show() 
 
     ## Down function
     # When down button is pressed this makes the robot go backward.

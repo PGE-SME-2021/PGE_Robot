@@ -5,6 +5,9 @@ from feather.msg import Status
 #from std_msgs.msg import String
 
 def publisher():
+    '''Status node publisher
+    Node that publishes info in Status form
+    '''
     pub = rospy.Publisher("status", Status, queue_size = 10)
     rate = rospy.Rate(1)#1Hz
     counter = 0

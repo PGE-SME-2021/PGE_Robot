@@ -8,6 +8,9 @@ from pathlib import Path
 import time
 
 def publisher():
+    '''Image publisher simulator node
+    This node publishes 4 images every 4 seconds, the images must be placen in the same file folder
+    '''
     pub = rospy.Publisher("image_sim", Image, queue_size= 10)
     rate = rospy.Rate(0.5)
     msg_to_publish = Image()
@@ -24,5 +27,8 @@ def publisher():
 
 
 if __name__ == '__main__':
+    '''Main function
+    This function tests the image publisher simulator node
+    '''
     rospy.init_node("img_sim_node")
     publisher()

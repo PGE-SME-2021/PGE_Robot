@@ -5,6 +5,9 @@ import time
 from std_msgs.msg import String
 
 def publisher():
+    """Love node
+    This is a publisher that sends a string with love every second.
+    """
     pub = rospy.Publisher("love", String, queue_size = 10)
     rate = rospy.Rate(1)#1Hz
     counter = 0
@@ -20,5 +23,8 @@ def publisher():
         time.sleep(1)
 
 if __name__ == "__main__":
+    '''Main Function
+    This function tests the love sender
+    '''
 	rospy.init_node("feelings_pub")
 	publisher()

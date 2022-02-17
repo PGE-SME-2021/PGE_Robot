@@ -2,6 +2,7 @@
 import rospy
 from feather.msg import Status
 from std_msgs.msg import String
+
 class NodeSub():
     def __init__(self, topic_name, message_type, node_name):
         self.topic_name = topic_name

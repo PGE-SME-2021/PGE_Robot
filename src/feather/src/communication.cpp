@@ -1,14 +1,24 @@
+/** \file  communication.cpp
+ * This is a node that allows you to configure the speed
+ *  parameter of the robot in manual mode and move it in
+ *  the direction desired by the user.
+ */
+
 // library
 #include "ros/ros.h"
 //#include "serial/serial.h"
 #include "stdio.h"
 #include "feather/SendCommand.h"
 #include "serial_cmd.cpp"
+/*! \fn bool raspi_to_esp(feather::SendCommand::Request  &req, feather::SendCommand::Response &res) 
+ *  \brief This fonction sends commands from Raspy to ESP32 about
+ *  speed of the wheels and robot movement direction.
+ *  \param req request object of the SendComands service.
+ *  \param res reponse object of the SendComands service.
+ *  \return execution check boolean.
+ */
 
-
-
-bool raspi_to_esp(feather::SendCommand::Request  &req,
-         feather::SendCommand::Response &res)
+bool raspi_to_esp(feather::SendCommand::Request  &req, feather::SendCommand::Response &res)
 { 
 	if ((220 <= req.vitesse1) && (req.vitesse1 <= 255)) {
 		if ((220 <= req.vitesse2) && (req.vitesse2 <= 255)) {
@@ -33,7 +43,11 @@ bool raspi_to_esp(feather::SendCommand::Request  &req,
     ROS_INFO("sending back response: [%ld]", (long  int)res.check);
   return true;
 }
-
+/*! \fn int main(int argc, char **argv) 
+ *  \brief Main function that starts the node and connects 
+ *	to the SendCommands service
+ *	\return 0 after execution	 
+ */
 int main(int argc, char **argv){
   	ros::init(argc, argv, "communication");
   	ros::NodeHandle n; // déclaration de noeud 

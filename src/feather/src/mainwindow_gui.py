@@ -34,8 +34,12 @@ import cv2 #3.2.0
 class Worker(QThread):
     '''
     Worker thread
+    This is a bref explanation
     '''
     def __init__(self, Qthread_data, *args, **kwargs):
+        '''Constructor
+        This is the constructor
+        '''
         super(Worker, self).__init__()
 
         self.Qthread_data = Qthread_data
@@ -49,6 +53,9 @@ class Worker(QThread):
 
 
 class MyMainWindow(QtWidgets.QMainWindow):
+    ##Constructor
+    # this is the constructor
+    # @param self Object pointer
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow() #to create frontend widgets object
@@ -75,16 +82,16 @@ class MyMainWindow(QtWidgets.QMainWindow):
 
         self.activate_ROSthread()
 
-        '''self.ui.pushButton_2.setCheckable(True)
-        self.ui.pushButton_2.toggle()
-        self.ui.pushButton_2.clicked.connect(self.btnstate)'''
+        '''self.ui.pushButton_settings.setCheckable(True)
+        self.ui.pushButton_settings.toggle()
+        self.ui.pushButton_settings.clicked.connect(self.btnstate)'''
 
-        self.ui.pushButton_2.clicked.connect(self.settings_menu)#settings
-        self.ui.pushButton_10.clicked.connect(self.right_click)#right
-        self.ui.pushButton.clicked.connect(self.stop_click)#stop
-        self.ui.pushButton_9.clicked.connect(self.left_click)#left
-        self.ui.pushButton_8.clicked.connect(self.down_click)#down
-        self.ui.pushButton_4.clicked.connect(self.up_click)#up
+        self.ui.pushButton_settings.clicked.connect(self.settings_menu)#settings
+        self.ui.pushButton_droite.clicked.connect(self.right_click)#right
+        self.ui.pushButton_stop.clicked.connect(self.stop_click)#stop
+        self.ui.pushButton_gauche.clicked.connect(self.left_click)#left
+        self.ui.pushButton_arriere.clicked.connect(self.down_click)#down
+        self.ui.pushButton_avant.clicked.connect(self.up_click)#up
         self.ui.comboBox.currentTextChanged.connect(self.on_combobox_data_changed)
         self.ui.comboBox_2.currentTextChanged.connect(self.on_combobox_mode_changed)
         self.ui.frame_5.setVisible(False)  
@@ -248,7 +255,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         if text == "Semi-Automatic Mode":
             self.ui.frame_4.setVisible(False)  
             self.ui.frame_5.setVisible(True) 
-            self.ui.label_7.setText("Choose an arrival point on the map")     
+            self.ui.label_text.setText("Choose an arrival point on the map")     
         if text == "Manual Mode":
             self.ui.frame_4.setVisible(True)  
             self.ui.frame_5.setVisible(False) 

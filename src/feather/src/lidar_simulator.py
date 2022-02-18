@@ -1,8 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 import time
 from csv_functions import *
 from feather.msg import LidarData
+from pathlib import Path
 ## Lidar simulator publisher node
 # This function reads a csv file with lidar points information and publishes it.
 # @param file_name This is the file name of the csv file containing the lidar info
@@ -11,8 +12,8 @@ def publisher(file_name):
     rate = rospy.Rate(3)#1Hz
     msg_to_publish = LidarData()
     BASE_DIR = Path(__file__).resolve().parent.parent
-    file_name = BASE_DIR + "/data/gui_2022_2_1_15_4_20_val.csv"
-    #file_name = F"{BASE_DIR}/data/gui_2022_2_1_15_4_20_val.csv"
+    #file_name = BASE_DIR + "/data/gui_2022_2_1_15_4_20_val.csv"
+    file_name = F"{BASE_DIR}/data/gui_2022_2_1_15_4_20_val.csv"
     values = read_csv_data(file_name)
     while not rospy.is_shutdown():
         i = 0

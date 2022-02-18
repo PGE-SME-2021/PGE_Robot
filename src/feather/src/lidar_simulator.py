@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import rospy
 import time
 from csv_functions import *
@@ -10,6 +10,9 @@ def publisher(file_name):
     pub = rospy.Publisher("lidar_points", LidarData, queue_size = 10)
     rate = rospy.Rate(3)#1Hz
     msg_to_publish = LidarData()
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    file_name = BASE_DIR + "/data/gui_2022_2_1_15_4_20_val.csv"
+    #file_name = F"{BASE_DIR}/data/gui_2022_2_1_15_4_20_val.csv"
     values = read_csv_data(file_name)
     while not rospy.is_shutdown():
         i = 0

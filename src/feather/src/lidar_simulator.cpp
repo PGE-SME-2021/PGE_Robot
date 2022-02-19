@@ -1,3 +1,8 @@
+/** \file  lidar_simulator.cpp
+ * this node publishes in topic lidar_points the coordinates
+ * of the path robot
+ */
+
 #include "ros/ros.h"
 #include "feather/LidarData.h"
 
@@ -8,6 +13,11 @@
 #include <sstream>
 //float traject[80]={};
 float* coordonnees;
+
+/*! \fn void trajectorycallback (const nav_msgs::Path traject) 
+ *  \brief This fonction show in the console the coordinates of path robot.
+ *  \param traject contains the coordinates published in the trajectory topic
+ */
 void trajectorycallback (const nav_msgs::Path traject)
 {
 	ROS_INFO("It is good %d", traject);

@@ -1,4 +1,7 @@
 // library
+/** \file  odometry_data_lidar.cpp
+ * This node show the odometry data 
+ */
 #include "ros/ros.h"
 #include <nav_msgs/Odometry.h>
 #include "serial/serial.h"
@@ -6,6 +9,11 @@
 #include "feather/SendCommand.h"
 #include "serial_cmd.cpp"
 #include <std_msgs/Int16.h>
+
+/*! \fn void odomCallback_euler(const nav_msgs::Odometry& data_euler) 
+ *  \brief This function shows the position and velocity data of type eurler.
+ *  \param data_euler contains the actual position and speed of robot
+ */
 
 
 void odomCallback_euler(const nav_msgs::Odometry& data_euler){
@@ -17,6 +25,11 @@ void odomCallback_euler(const nav_msgs::Odometry& data_euler){
 		ROS_INFO("Data euler Rotation %i  =  %lf ", i , data_euler->twist->covariance[i]);
 	}
 }
+
+/*! \fn void odomCallback_quaternion(const nav_msgs::Odometry& data_quot) 
+ *  \brief This function shows the position and velocity data of type quaternion.
+ *  \param data_quat  contains the actual position and speed of robot
+ */
 
 void odomCallback_quaternion(const nav_msgs::Odometry& data_quot){
 	ROS_INFO("Data odometrie receive"); // = printf 

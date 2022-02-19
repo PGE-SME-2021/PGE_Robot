@@ -1,4 +1,9 @@
 // library
+/** \file  conversionc_dataLidar.cpp
+ * This is a node that allows you to configure the speed
+ *  parameter of the robot in manual mode and move it in
+ *  the direction desired by the user.
+ */
 #include "ros/ros.h"
 #include <nav_msgs/Odometry.h>
 #include "serial/serial.h"
@@ -14,6 +19,9 @@ void odomCallback_euler(){
 }
 
 //fonction conversion
+/*! \fn bool raspi_to_esp(feather::SendCommand::Request  &req, feather::SendCommand::Response &res) 
+ *  \brief This function converts the lidar data into integer data.
+ */
 
 int main(int argc, char **argv){
   	ros::init(argc, argv, "conversion_dataLidar_communication");

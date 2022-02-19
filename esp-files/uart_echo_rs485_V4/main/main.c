@@ -1,4 +1,11 @@
-
+/*!
+   \file main.c
+   \brief Driver motor
+   \author Aurélien BENOIT
+   \date 06/01/2022
+   \note Some pins on target chip cannot be assigned for UART communication.
+        Please refer to documentation for selected board and target to configure pins using Kconfig.
+*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -17,53 +24,156 @@
 #include "esp_err.h"
 #include "driver/gpio.h"
 
-
-// **********************************************************************************************************************************
-// **********************************************************************************************************************************
-
+/*!
+   \def TAG
+   \brief String
+*/
 #define TAG "RS485_ECHO_APP"
-// Note: Some pins on target chip cannot be assigned for UART communication.
-// Please refer to documentation for selected board and target to configure pins using Kconfig.
+
+/*!
+   \def ECHO_TEST_TXD (CONFIG_ECHO_UART_TXD)
+   \brief Pin number TXD
+*/
 #define ECHO_TEST_TXD   (CONFIG_ECHO_UART_TXD)
+/*!
+   \def ECHO_TEST_RXD (CONFIG_ECHO_UART_RXD)
+   \brief Pin number RXD
+*/
 #define ECHO_TEST_RXD   (CONFIG_ECHO_UART_RXD)
-// RTS for RS485 Half-Duplex Mode manages DE/~RE
+
+/*!
+   \def ECHO_TEST_RTS  (CONFIG_ECHO_UART_RTS)
+   \brief RTS for RS485 Half-Duplex Mode manages DE/~RE
+*/
 #define ECHO_TEST_RTS   (CONFIG_ECHO_UART_RTS)
-// CTS is not used in RS485 Half-Duplex Mode
+
+/*!
+   \def ECHO_TEST_CTS   (UART_PIN_NO_CHANGE)
+   \brief CTS is not used in RS485 Half-Duplex Mode
+*/
 #define ECHO_TEST_CTS   (UART_PIN_NO_CHANGE)
+/*!
+   \def BUF_SIZE
+   \brief Buffer of read data
+*/
 #define BUF_SIZE        (127)
+/*!
+   \def BAUD_RATE
+   \brief Speed communication (bit/s)
+*/
 #define BAUD_RATE       (CONFIG_ECHO_UART_BAUD_RATE)
-// Read packet timeout
+/*!
+   \def PACKET_READ_TICS
+   \brief Read packet timeout
+*/
 #define PACKET_READ_TICS        (100 / portTICK_RATE_MS)
+/*!
+   \def ECHO_TASK_STACK_SIZE
+   \brief Size of the task
+*/
 #define ECHO_TASK_STACK_SIZE    (2048)
-#define ECHO_TASK_PRIO          (10)
-#define ECHO_UART_PORT          (CONFIG_ECHO_UART_PORT_NUM)
-// Timeout threshold for UART = number of symbols (~10 tics) with unchanged state on receive pin
-#define ECHO_READ_TOUT          (3) // 3.5T * 8 = 28 ticks, TOUT=3 -> ~24..33 ticks
-// **********************************************************************************************************************************
-// **********************************************************************************************************************************
+/*!
+   \def ECHO_TASK_PRIO
+   \brief Priority of the task
+*/
+#define ECHO_TASK_PRIO  (10)
+/*!
+   \def ECHO_UART_PORT
+   \brief Number port
+*/
+#define ECHO_UART_PORT   (CONFIG_ECHO_UART_PORT_NUM)
+/*!
+   \def ECHO_READ_TOUT
+   \brief Timeout threshold for UART = number of symbols (~10 tics) with unchanged state on receive pin,
+          3.5T * 8 = 28 ticks, TOUT=3 -> ~24..33 ticks
+*/
+#define ECHO_READ_TOUT   (3)
+/*!
+   \brief Led on pin
+*/
 #define LED_ON (26)
+/*!
+   \brief Led green pin
+*/
 #define LED_BLINK_GREEN (34)
+/*!
+   \brief Led red pin
+*/
 #define LED_BLINK_RED (35)
+/*!
+   \brief Led Right Forward pin
+*/
 #define LED_D_AV (40)
+/*!
+   \brief Led Right Back pin
+*/
 #define LED_D_AR (41)
+/*!
+   \brief Led Left Forward pin
+*/
 #define LED_G_AV (42)
+/*!
+   \brief Led Left Back pin
+*/
 #define LED_G_AR (45)
 //****************************************************************************************************************
 //****************************************************************************************************************
+/*!
+   \brief Timer number
+*/
 #define LEDC_TIMER              LEDC_TIMER_0
+/*!
+   \brief Speed mode
+*/
 #define LEDC_MODE               LEDC_LOW_SPEED_MODE
-#define LEDC_OUTPUT_IO_DROITE_AVANT          (1) // Define the output GPIO
-#define LEDC_OUTPUT_IO_DROITE_ARRIERE          (2) // Define the output GPIO
-#define LEDC_OUTPUT_IO_GAUCHE_AVANT          (3) // Define the output GPIO
-#define LEDC_OUTPUT_IO_GAUCHE_ARRIERE          (4) // Define the output GPIO
+/*!
+   \brief Motor right forward speed pin
+*/
+#define LEDC_OUTPUT_IO_DROITE_AVANT          (1)
+/*!
+   \brief Motor right back speed pin
+*/
+#define LEDC_OUTPUT_IO_DROITE_ARRIERE          (2)
+/*!
+   \brief Motor left forward speed pin
+*/
+#define LEDC_OUTPUT_IO_GAUCHE_AVANT          (3)
+/*!
+   \brief Motor left back speed pin
+*/
+#define LEDC_OUTPUT_IO_GAUCHE_ARRIERE          (4)
+/*!
+   \brief Channel for Motor right forward speed
+*/
 #define M_CHANNEL_0             LEDC_CHANNEL_0
+/*!
+   \brief Channel for Motor right back speed
+*/
 #define M_CHANNEL_1            LEDC_CHANNEL_1
+/*!
+   \brief Channel for Motor left forward speed
+*/
 #define M_CHANNEL_2            LEDC_CHANNEL_2
+/*!
+   \brief Channel for Motor left back speed
+*/
 #define M_CHANNEL_3            LEDC_CHANNEL_3
+/*!
+   \brief Size of ledc_channel
+*/
 #define CH_NUM       (4)
-#define LEDC_DUTY_RES           LEDC_TIMER_9_BIT // Set duty resolution to 13 bits
-#define LEDC_DUTY               (440) // Set duty to 50%. ((2 ** 13) - 1) * 50% = 4095
-#define LEDC_FREQUENCY          (20300) // Frequency in Hertz. Set frequency at 5 kHz
+/*!
+   \brief Set duty resolution to 9 bits
+*/
+#define LEDC_DUTY_RES           LEDC_TIMER_9_BIT
+/*!
+   \brief Set duty to %. ((2 ** 9) - 1) * %
+*/
+#define LEDC_DUTY               (440)
+/*!
+   \brief Frequency in Hertz
+*/
+#define LEDC_FREQUENCY          (20300)
 
 
 
@@ -80,7 +190,7 @@ ledc_timer_config_t ledc_timer = {
     .speed_mode       = LEDC_MODE,
     .timer_num        = LEDC_TIMER,
     .duty_resolution  = LEDC_DUTY_RES,
-    .freq_hz          = LEDC_FREQUENCY,  // Set output frequency at 5 kHz
+    .freq_hz          = LEDC_FREQUENCY,
     .clk_cfg          = LEDC_AUTO_CLK
 };
 ledc_channel_config_t ledc_channel[CH_NUM] = {
@@ -131,6 +241,11 @@ static void echo_send(const int port, const char* str, uint8_t length){
     }
 }
 
+/*!
+   \brief Initialize the uart communication,
+          Initialize the PWM signals "ledc_channel" and the timer "ledc_timer
+   \return void
+*/
 static void echo_init(){
   ESP_ERROR_CHECK(ledc_timer_config(&ledc_timer));
   for (int ch = 0; ch < CH_NUM; ch++) ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel[ch]));
@@ -146,7 +261,10 @@ static void echo_init(){
   ESP_ERROR_CHECK(uart_set_rx_timeout(uart_num, ECHO_READ_TOUT));                                        // Set read timeout of UART TOUT feature
 
 }
-
+/*!
+   \brief Initialize GPIO ports
+   \return void
+*/
 void gpio_init(){
   gpio_reset_pin(LED_BLINK_GREEN);
   gpio_reset_pin(LED_BLINK_RED);
@@ -164,7 +282,11 @@ void gpio_init(){
   gpio_set_direction(LED_ON, GPIO_MODE_OUTPUT);
 
 }
-
+/*!
+   \brief Move the robot forward with the given speed
+   \param[in] tab[4]
+   \return void
+*/
 void forward(float tab[4]){
   printf("Le robot avance \r\n");
   gpio_set_level(LED_D_AV, 1);
@@ -188,10 +310,13 @@ void forward(float tab[4]){
 
 
 }
-
+/*!
+   \brief Back up the robot with the given speed
+   \param[in] tab[4]
+   \return void
+*/
 void back(float tab[4]){
   printf("Le robot recule \r\n");
-  //echo_send(uart_num,"Le robot recule \r\n", 21);
   gpio_set_level(LED_D_AV, 0);
   gpio_set_level(LED_D_AR, 1);
   gpio_set_level(LED_G_AV, 0);
@@ -212,10 +337,13 @@ void back(float tab[4]){
   printf("] \n");
 
 }
-
+/*!
+   \brief Turn the robot to the right with the given speed
+   \param[in] tab[4]
+   \return void
+*/
 void right(float tab[4]){
   printf("Le robot tourne à droite \r\n");
-  //echo_send(uart_num,"Le robot tourne à droite \r\n", 30);
   gpio_set_level(LED_D_AV, 0);
   gpio_set_level(LED_D_AR, 1);
   gpio_set_level(LED_G_AV, 1);
@@ -236,10 +364,13 @@ void right(float tab[4]){
   printf("] \n");
 
 }
-
+/*!
+   \brief Turn the robot to the left with the given speed
+   \param[in] tab[4]
+   \return void
+*/
 void left(float tab[4]){
   printf("Le robot tourne gauche \r\n");
-  //echo_send(uart_num,"Le robot tourne gauche \r\n", 27);
   gpio_set_level(LED_D_AV, 1);
   gpio_set_level(LED_D_AR, 0);
   gpio_set_level(LED_G_AV, 0);
@@ -260,10 +391,13 @@ void left(float tab[4]){
   printf("] \n");
 
 }
-
+/*!
+   \brief Stop the robot
+   \param[in] tab[4]
+   \return void
+*/
 void stop(float tab[4]){
   printf("Le robot s'arrete \r\n");
-  //echo_send(uart_num,"Le robot s'arrete \r\n", 23);
   gpio_set_level(LED_D_AV, 0);
   gpio_set_level(LED_D_AR, 0);
   gpio_set_level(LED_G_AV, 0);
@@ -284,7 +418,13 @@ void stop(float tab[4]){
   gpio_set_level(LED_BLINK_RED, 1);
 
 }
-
+/*!
+   \brief Managing the robot's movements
+   \param[in] l
+   \param[in] data
+   \param[in] tab[4]
+   \return void
+*/
 void commandMotor(int l, uint8_t * data, float tab[4]){
   uint8_t tabCommand[1];
   for (int v = 0; v < l; v++) {
@@ -299,7 +439,11 @@ void commandMotor(int l, uint8_t * data, float tab[4]){
   else if(tabCommand[0] == 5) stop(tab);// stop
   else ESP_LOGE(TAG, "Error Data command - command should be < 6");
 }
-
+/*!
+   \brief Receive motor's speed
+   \param[in] arg
+   \return void
+*/
 static void echo_task(void *arg){
     printf("portTICK_RATE_MS : %d \n", portTICK_RATE_MS);
     ESP_LOGI(TAG, "UART start recieve loop.\r\n");
@@ -332,6 +476,10 @@ static void echo_task(void *arg){
     vTaskDelete(NULL);
 }
 
+/*!
+   \brief Main function
+   \return void
+*/
 void app_main(void){
   echo_init();
   gpio_init();

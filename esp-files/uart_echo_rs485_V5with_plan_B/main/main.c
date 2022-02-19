@@ -167,7 +167,7 @@
 */
 #define LEDC_DUTY_RES           LEDC_TIMER_8_BIT
 /*!
-   \brief Set duty to %. ((2 ** 13) - 1) * %
+   \brief Set duty to %. ((2 ** 8) - 1) * %
 */
 #define LEDC_DUTY               (255)
 /*!
@@ -189,7 +189,7 @@ ledc_timer_config_t ledc_timer = {
     .speed_mode       = LEDC_MODE,
     .timer_num        = LEDC_TIMER,
     .duty_resolution  = LEDC_DUTY_RES,
-    .freq_hz          = LEDC_FREQUENCY,  // Set output frequency at 5 kHz
+    .freq_hz          = LEDC_FREQUENCY,
     .clk_cfg          = LEDC_AUTO_CLK
 };
 ledc_channel_config_t ledc_channel[CH_NUM] = {
@@ -217,8 +217,8 @@ const int uart_num = ECHO_UART_PORT;
 
 
 /*!
-   \brief Initialise la communication uart,
-          Initialiser les signaux PWM "ledc_channel" et le timer "ledc_timer"
+   \brief Initialize the uart communication,
+          Initialize the PWM signals "ledc_channel" and the timer "ledc_timer
    \return void
 */
 void echo_init(){
@@ -238,7 +238,7 @@ void echo_init(){
 }
 
 /*!
-   \brief Initialise les ports GPIO
+   \brief Initialize GPIO ports
    \return void
 */
 void gpio_init(){

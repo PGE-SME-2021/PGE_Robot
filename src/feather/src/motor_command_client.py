@@ -14,7 +14,7 @@ import time
 # 4 turn left
 # 5 stop
 # @param v1 speed motor 1
-# @param v2 speed motor2
+# @param v2 speed motor 2
 def send_command_client(com,v1,v2):
     rospy.wait_for_service('send_command')
     try:

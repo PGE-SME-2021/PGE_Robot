@@ -68,6 +68,7 @@ add_message_files(
   AddThreeInts.srv
   PathPlanning.srv
   AddThreeInts.srv
+  SetParams.srv
 #   Service1.srv
 #   Service2.srv
  )
@@ -181,6 +182,7 @@ include_directories(
    src/service_client.py
    src/motor_command_client.py
    src/coordinate_client.py
+   src/params_client.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
@@ -270,6 +272,10 @@ add_executable(communication src/communication.cpp)
 target_link_libraries(communication  ${catkin_LIBRARIES})
 add_dependencies(communication feather_gencpp)
 
+
+add_executable(params_server src/params_server.cpp)
+target_link_libraries(params_server  ${catkin_LIBRARIES})
+add_dependencies(params_server feather_gencpp)
 
 add_executable(add_two_ints_server src/add_two_ints_server.cpp)
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})

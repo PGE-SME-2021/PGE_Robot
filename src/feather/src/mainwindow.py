@@ -452,7 +452,7 @@ class Ui_MainWindow(object):
         self.label_accele.setText(_translate("MainWindow", "Acceleration"))
         self.label_lineair_speed.setText(_translate("MainWindow", "Linear Speed"))
         self.label_battery.setText(_translate("MainWindow", "Battery"))
-import images_rc
+#import images_rc
 
 
 if __name__ == "__main__":

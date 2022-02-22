@@ -32,10 +32,9 @@ import cv2 #3.2.0
 
 
 class Worker(QThread):
-    '''
-    Worker thread
-    This is a bref explanation
-    '''
+    ##Qt Worker thread constructor
+    # this is the constructor
+    # @param self Object pointer
     def __init__(self, Qthread_data, *args, **kwargs):
         '''Constructor
         This is the constructor
@@ -54,20 +53,15 @@ class Worker(QThread):
 
 class MyMainWindow(QtWidgets.QMainWindow):
     ##Constructor
-    # this is the constructor
-    # @param self Object pointer
+    #This is the constructor of the GUI's main window 
+    #Here we initialize the functions that will constantly read ROS data 
+    #and we link all widgets to their respective functions.
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
-        self.ui = Ui_MainWindow() #to create frontend widgets object
+        self.ui = Ui_MainWindow() #object to use frontend widgets
         self.ui.setupUi(self)
 
         rospy.init_node('main_gui_node')
-        #self.ros.start_node()
-        #self.ros.subscriber()
-
-        #self.ros.subscriber("status", Status, callback1)
-        #self.ros.subscriber("lidar_data", LidarData, callback2)
-        #self.ros_lidar.start_node()
 
         #self.showMaximized()    
 
@@ -75,6 +69,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.display_height = 480
         self.bgr_frame = QPixmap(self.display_width, self.display_height)
 
+        """Define timer"""
         self.timer = QTimer()
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.start_data_acquisition)
@@ -97,12 +92,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.ui.frame_5.setVisible(False)  
 
 
-        '''self.timer = QtCore.QTimer(self)
-        self.timer.setInterval(1000) # in milliseconds
-        self.timer.start()
-        self.timer.timeout.connect(self.onNewData)'''
-
-        '''Initialize cartography widget'''
+        '''Set the cartography widget'''
         self.my_plot = pg.PlotWidget()
         self.my_plot.getPlotItem().hideAxis('bottom')
         self.my_plot.getPlotItem().hideAxis('left')
@@ -116,19 +106,29 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.plot_center.setData([0],[0])
         self.my_plot.scene().sigMouseClicked.connect(self.mouse_clicked)
     
+    ## Data acquisition from Lidar and Camera 
+    # This function starts reading data from both the Lidar and the Camera according 
+    # to the timer set in the constructor of the main window class. 
     def start_data_acquisition(self):
         self.get_lidar_data()
         self.get_camera_data()
     
+    ## Show Lidar Carthography 
+    # This function displays the data from the lidar on the interface 
     def show_lidar_data(self):
         self.ui.label.hide()
         self.ui.verticalLayout.addWidget(self.my_plot)
 
-    def get_timer_data(self): #receives data from ROS using a timer 
+    ## Get status data from Robot 
+    # This function receives status data from the robot and ROS using a timer 
+    def get_timer_data(self): 
         self.msg = rospy.wait_for_message('/status', Status, timeout = 5)
         self.ui.label.setText(F"{self.msg.battery}")
 
-    def get_lidar_data(self): #receives data from ROS using a timer 
+    ## Get Lidar data 
+    # This function receives Lidar data from ROS using a timer 
+    # and waits for a message pusblished on the '/slam_cloud' topic. 
+    def get_lidar_data(self): 
         self.list_x = []
         self.list_y = []
         self.step = 0.5
@@ -137,13 +137,12 @@ class MyMainWindow(QtWidgets.QMainWindow):
         for point in self.points_lidar.points:
             self.list_x.append(point.x)
             self.list_y.append(point.y)
-        #self.onNewData(self.list_x, self.list_y)
         self.plot.setData(self.list_x, self.list_y)
 
-    ## Get Camera data Thread
-    # This function waits for a message in '/image_sim' node
-    # @param self object pointer
-    def get_camera_data(self): #receives data from ROS using a timer 
+    ## Get Camera data 
+    # This function receives Camera data from ROS using a timer 
+    # and waits for an image pusblished on the '/image_sim' topic. 
+    def get_camera_data(self): 
         try:
             self.data = rospy.wait_for_message('/image_sim', Image, timeout = 5)
             br = CvBridge()
@@ -153,19 +152,15 @@ class MyMainWindow(QtWidgets.QMainWindow):
             cv2.waitKey(1)
         except Exception as e:
             print(e)
-
+    
+    ## Show Camera images 
+    # This function displays the images from the Camera on the interface 
     def show_camera_data(self):
         self.my_plot.setParent(None)
         self.ui.label.show()
-
         #cv_img = cv2.imread('/home/juanb/Documents/GUI_Robot/src/feather/src/img1.jpg')
-        # convert the image to Qt format
-        qt_img = self.convert_cv_qt(self.bgr_frame)
+        qt_img = self.convert_cv_qt(self.bgr_frame) #converts the image to Qt format
         self.ui.label.setPixmap(qt_img)
-
-        '''grey = QPixmap(self.display_width, self.display_height)
-        grey.fill(QColor('darkGray'))
-        self.ui.label.setPixmap(grey)'''
 
     def get_Qthread_data(self):
         previous_value = -1
@@ -221,7 +216,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         send_command_client(4,230,230)
 
     ## Right button
-    # When right button is pressed this makes the robot turns right.
+    # When right button is pressed this makes the robot turn right.
     def right_click(self):
         send_command_client(3,230,230)
 
@@ -229,9 +224,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
     # When right button is pressed this makes the robot move forward.
     def up_click(self):
         send_command_client(1,230,230)
-
-    '''def onNewData(self, x, y):
-        self.plot.setData(x,y)'''
 
     ## Send map coordinate
     # When we click on the lidar widget this sends the relative coordinate of the robot.

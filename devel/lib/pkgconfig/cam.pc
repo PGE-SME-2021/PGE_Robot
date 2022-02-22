@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/test05fev/devel
+
+Name: cam
+Description: Description of cam
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

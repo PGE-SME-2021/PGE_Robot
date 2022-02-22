@@ -1,11 +1,9 @@
-//
-// Created by nico on 5/11/20.
-//
+
 
 #ifndef IMU_i2c_H
 #define IMU_i2c_H
 
-#include "raspi_batmon/registre.h"
+#include "IMU/registre.h"
 #include <iostream>
 #include <fcntl.h>
 #include <linux/i2c-dev.h>
@@ -13,7 +11,6 @@
 #include <stdio.h>
 #include <ros/ros.h>
 #include <std_msgs/Float32.h>
-#include <sensor_msgs/BatteryState.h>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -21,7 +18,7 @@
 
 class i2c {
 public:
-    batmon_driver(int adapter_nr, int addr);
+    i2c(int adapter_nr, int addr);
 
     float getAres(uint8_t Ascale); 
 
@@ -51,4 +48,4 @@ private:
 
 };
 
-#endif //RASPI_BATMON_i2c_H
+#endif //IMU_i2c_H

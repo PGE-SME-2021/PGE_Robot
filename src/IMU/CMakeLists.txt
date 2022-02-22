@@ -154,15 +154,6 @@ target_link_libraries(icm42605 ${catkin_LIBRARIES} i2c )
 
 
 ##---------------------------------##
-#set (raspi_batmon_SRCS
-#    src/i2c_reader.cpp
-#)
-
-#set (raspi_batmon_HDRS
-#    include/raspi_batmon/smbus.h
-#)
-
-## add_library(${PROJECT_NAME} ${raspi_batmon_SRCS} ${raspi_batmon_HDRS})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

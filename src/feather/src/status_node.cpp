@@ -1,3 +1,7 @@
+/** \file  conversionc_dataLidar.cpp
+ * 	This node publish the status of the robot (battery, speed, acceleraration, 
+ *  angular_speed) in the topic robot_dinamics
+ */
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "feather/Status.h"

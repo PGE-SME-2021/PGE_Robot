@@ -25,6 +25,7 @@ from widget_frontend import Ui_Widget
 from tools import NodeSub
 from motor_command_client import send_command_client
 from coordinate_client import send_coordinates
+from params_client import set_params
 from csv_functions import *
 
 from cv_bridge import CvBridge

@@ -1,0 +1,5 @@
+int16 max_speed
+int16 max_acceleration
+int16 max_angular_speed
+---
+int64 check

@@ -34,7 +34,8 @@ import cv2 #3.2.0
 
 class Worker(QThread):
     ##Qt Worker thread constructor
-    # this is the constructor
+    # This thread is used to display the status data from the robot using 
+    # a different core.
     # @param self Object pointer
     def __init__(self, Qthread_data, *args, **kwargs):
         '''Constructor
@@ -77,10 +78,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.timer.start()
 
         self.activate_ROSthread()
-
-        '''self.ui.pushButton_settings.setCheckable(True)
-        self.ui.pushButton_settings.toggle()
-        self.ui.pushButton_settings.clicked.connect(self.btnstate)'''
 
         self.ui.pushButton_settings.clicked.connect(self.settings_menu)#settings
         self.ui.pushButton_droite.clicked.connect(self.right_click)#right
@@ -162,7 +159,9 @@ class MyMainWindow(QtWidgets.QMainWindow):
         #cv_img = cv2.imread('/home/juanb/Documents/GUI_Robot/src/feather/src/img1.jpg')
         qt_img = self.convert_cv_qt(self.bgr_frame) #converts the image to Qt format
         self.ui.label.setPixmap(qt_img)
-
+    
+    ## Display robot status 
+    # This function displays different status messages from the robot 
     def get_Qthread_data(self):
         previous_value = -1
         while True:
@@ -175,8 +174,10 @@ class MyMainWindow(QtWidgets.QMainWindow):
                 self.ui.lineEdit_4.setText(F"{self.msg.battery}")
 
             previous_value = current_value
-
-    def activate_ROSthread(self): #receives data from ROS using a Qthread 
+    
+    ## Activate Worker  
+    # This function starts the worker (thread) to receive status data from ROS
+    def activate_ROSthread(self): 
         self.worker = Worker(self.get_Qthread_data)
         self.worker.start()
 
@@ -193,6 +194,8 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
         print(F"x = {self.x_plot}, y = {self.y_plot}")
     
+    ## Settings window 
+    # This function is used to create a pop-up window when the settings button is pressed
     def settings_menu(self):
         self.settings_gui = QtWidgets.QDialog()
         self.settings_gui.ui = Ui_Widget()
@@ -202,27 +205,27 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.settings_gui.show() 
 
     ## Down function
-    # When down button is pressed this makes the robot go backward.
+    # When the down button is pressed this makes the robot move in reverse.
     def down_click(self):
         send_command_client(2,230,230)
 
     ## Stop function
-    # When stop button is pressed this makes the motors stop.
+    # When the stop button is pressed this makes the motors stop.
     def stop_click(self):
         send_command_client(5,230,230)
 
     ## Left button
-    # When left button is pressed this makes the robot turn left.
+    # When the left button is pressed this makes the robot turn left.
     def left_click(self):
         send_command_client(4,230,230)
 
     ## Right button
-    # When right button is pressed this makes the robot turn right.
+    # When the right button is pressed this makes the robot turn right.
     def right_click(self):
         send_command_client(3,230,230)
 
     ## Up button
-    # When right button is pressed this makes the robot move forward.
+    # When the up button is pressed this makes the robot move forward.
     def up_click(self):
         send_command_client(1,230,230)
 
@@ -243,7 +246,10 @@ class MyMainWindow(QtWidgets.QMainWindow):
             print(F"approx location (x = {val_x}m, y = {val_y}m)")
             print(F"distance = {sqrt(val_x **2 + val_y **2)}")
             send_coordinates(val_x, val_y)
-
+    
+    ## Current mode options list
+    # Determines the actions when the user selects a robot mode  
+    # @param Receives the selected text in the list 
     def on_combobox_mode_changed(self, text):
         if text == "Semi-Automatic Mode":
             self.ui.frame_4.setVisible(False)  
@@ -252,15 +258,23 @@ class MyMainWindow(QtWidgets.QMainWindow):
         if text == "Manual Mode":
             self.ui.frame_4.setVisible(True)  
             self.ui.frame_5.setVisible(False) 
-    
+
+    ## Current data options list
+    # Determines the actions when the user selects the type of data to show  
+    # @param Receives the selected text in the list
     def on_combobox_data_changed(self, text):
         if text == "Lidar Data":
             self.show_lidar_data() 
         if text == "Camera":
             self.show_camera_data()
     
+    ## Convert image format 
+    # Changes an image from OpenCV format to QPixmap format  
+    # @param Input image in OpenCV format
     def convert_cv_qt(self, cv_img):
-        """Convert from an opencv image to QPixmap"""
+        """
+        Convert from an opencv image to QPixmap
+        """
         rgb_image = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
         h, w, ch = rgb_image.shape
         bytes_per_line = ch * w
@@ -275,7 +289,8 @@ def mapping(min_init, max_init, min_fin, max_fin, value):
 
 
 if __name__ == '__main__':
-    '''Main function
+    '''
+    Main function
     '''
     app = QApplication(sys.argv)
     myMainWindow = MyMainWindow()

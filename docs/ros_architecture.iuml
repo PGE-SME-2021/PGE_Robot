@@ -1,7 +1,7 @@
 @startuml
 package feather{
-boundary QtFrame #palegreen
-node qt_node #palegreen
+boundary "IHM" as QtFrame #palegreen
+node "ihm_node" as qt_node #palegreen
 note right 
 ROS_MASTER_URI=
 http://10.42.0.1:11311
@@ -9,6 +9,7 @@ end note
 node coordinate_server 
 node motor_command_server
 node status_pub
+node parameter_server
 component encoders #red
 component battery #red
 component ESP32
@@ -45,7 +46,13 @@ points_cloud -left(0-> qt_node
 
 qt_node -0)-> motor_command_server
 motor_command_server .0).> qt_node 
+motor_command_server --> ESP32
 
 qt_node -0)-> coordinate_server
 coordinate_server .0).> qt_node
+coordinate_server <--> ESP32
+
+qt_node -0)-> parameter_server
+qt_node <.0). parameter_server
+parameter_server <--> ESP32
 @enduml

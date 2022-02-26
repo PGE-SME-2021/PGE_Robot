@@ -1,2 +1,0 @@
-cam
--DCATKIN_DEVEL_PREFIX=/home/ubuntu/test05fev/devel -DCMAKE_INSTALL_PREFIX=/home/ubuntu/test05fev/install -G Unix Makefiles

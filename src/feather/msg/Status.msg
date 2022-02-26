@@ -1,7 +1,7 @@
 string error
 int32 battery
-int32 speed
-int32 acceleration
-int32 angular_speed
+float32 speed
+float32 acceleration
+float32 angular_speed
 
 

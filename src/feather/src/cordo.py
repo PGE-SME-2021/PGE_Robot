@@ -4,6 +4,7 @@ import rospy
 from feather.msg import Status, LidarData
 from sensor_msgs.msg import PointCloud, Image
 from feather.msg import Status
+from feather.srv import SendCommand
 
 #sim dependencies
 import os
@@ -29,11 +30,30 @@ def rect_speed(linear, angle):
     return speed_x, speed_y
 
 
+def handle_move(req):
+    print(req)
+    global speed, angle_speed, params
+    if req.command == 1:
+        speed = -params['speed']
+    elif req.command == 2:
+        speed = params['speed']
+    elif req.command == 3:
+        angle_speed = params['angle_speed']
+    elif req.command == 4:
+        angle_speed = -params['angle_speed']
+    elif req.command == 5:
+        speed = 0
+        angle_speed =0
+
+    return 12
+
 if __name__ == "__main__":
     #init rosnode
+    global speed, angle_speed, params
     rospy.init_node('feather_sim')
-    pub = rospy.Publisher("cordobes", Status, queue_size = 10)
+    pub = rospy.Publisher("status", Status, queue_size = 10)
     rate = rospy.Rate(1)#1Hz
+    move_server = rospy.Service('send_command', SendCommand, handle_move)
     counter = 0
     msg_to_publish = Status()
     BASE_DIR = os.path.dirname(os.path.realpath(__file__))

@@ -15,13 +15,14 @@ icon = pygame.image.load('rooster.png')
 pygame.display.set_icon(icon)
 
 # player
-player_logo = pygame.image.load("cordobes.png")
-playerX = 300
-playerY = 300
+player_logo = pygame.image.load("nabo.png")
+# <a href="https://www.flaticon.com/free-icons/rooster" title="rooster icons">Rooster icons created by Culmbio - Flaticon</a>
+player_x = 300
+player_y = 300
 speed = 2
 
-def player():
-    screen.blit(player_logo, (playerX, playerY))#drawing
+def player(x, y):
+    screen.blit(player_logo, (x, y))#drawing
 
 # Game loop
 while running:
@@ -33,8 +34,9 @@ while running:
 
     time.sleep(0.01)
     #screen is drawn first and then we draw our player  caracter
-    playerX -= speed
-    player()
+    player_x += speed
+    player_y += speed
+    player(player_x, player_y)
 
     pygame.display.update()
 

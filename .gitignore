@@ -20,7 +20,6 @@ venv/**
 **.swa
 
 #ros env files
-<<<<<<< HEAD
 build/
 devel/
 .catkin_workspace

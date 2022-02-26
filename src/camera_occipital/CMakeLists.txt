@@ -8,22 +8,12 @@ project(camera_occipital)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-<<<<<<< HEAD:src/feather/CMakeLists.txt
-  geometry_msgs
-nav_msgs
-  roscpp
-  rospy
-  std_msgs
-sensor_msgs
-  message_generation
-=======
   depth_image_proc
   message_generation
   roscpp
   sensor_msgs
   std_msgs
   nodelet
->>>>>>> a071d2db1929538cd41d745c9f66d106e47f8408:src/camera_occipital/CMakeLists.txt
 )
 
 ## System dependencies are found with CMake's conventions
@@ -60,27 +50,18 @@ sensor_msgs
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  Status.msg
-  Num.msg
-  LidarData.msg
+# add_message_files(
+#   FILES
 #   Message1.msg
 #   Message2.msg
-)
+# )
 
 ## Generate services in the 'srv' folder
- add_service_files(
-  FILES
-  AddTwoInts.srv
-  SendCommand.srv
-  AddThreeInts.srv
-  PathPlanning.srv
-  AddThreeInts.srv
-  SetParams.srv
+# add_service_files(
+#   FILES
 #   Service1.srv
 #   Service2.srv
- )
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -90,21 +71,10 @@ add_message_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-<<<<<<< HEAD:src/feather/CMakeLists.txt
- generate_messages(
-   DEPENDENCIES
-   std_msgs  # Or other packages containing msgs
-   geometry_msgs
-   #nav_msgs
-   sensor_msgs
-
- )
-=======
 # generate_messages(
 #   DEPENDENCIES
 #   sensor_msgs#   std_msgs
 # )
->>>>>>> a071d2db1929538cd41d745c9f66d106e47f8408:src/camera_occipital/CMakeLists.txt
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -132,21 +102,13 @@ add_message_files(
 ## The catkin_package macro generates cmake config files for your package
 ## Declare things to be passed to dependent projects
 ## INCLUDE_DIRS: uncomment this if your package contains header files
-## LIBRARIES: libraries you create in this project that recipe for target '/home/ubuntu/catkin_ws/devel/lib/feather/communication' failed
-##make[2]: *** [/home/ubuntu/catkin_ws/devel/lib/feather/communication] Errordependent projects also need
+## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-<<<<<<< HEAD:src/feather/CMakeLists.txt
-#  INCLUDE_DIRS include
-#  LIBRARIES feather
-  CATKIN_DEPENDS geometry_msgs sensor_msgs roscpp rospy message_runtime
-  #CATKIN_DEPENDS nav_msgs roscpp rospy message_runtime
-=======
 #INCLUDE_DIRS include
 #  LIBRARIES cam
 #  CATKIN_DEPENDS depth_image_proc message_generation roscpp sensor_msgs std_msgs
->>>>>>> a071d2db1929538cd41d745c9f66d106e47f8408:src/camera_occipital/CMakeLists.txt
 #  DEPENDS system_lib
 )
 
@@ -212,13 +174,10 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
- catkin_install_python(PROGRAMS
-   src/service_client.py
-   src/motor_command_client.py
-   src/coordinate_client.py
-   src/params_client.py
-   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
- )
+# catkin_install_python(PROGRAMS
+#   scripts/my_python_script
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
@@ -260,59 +219,3 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-#add_executable(add_three src/add_three_ints_server.cpp)
-#target_link_libraries(add_three ${catkin_LIBRARIES})
-#add_dependencies(add_three feather_gencpp)
-
-#add_executable(pub src/pub.cpp)
-#target_link_libraries(pub ${catkin_LIBRARIES})
-#add_dependencies(pub feather_generate_messages_cpp)
-
-#add_executable(sub src/sub.cpp)             
-#target_link_libraries(sub ${catkin_LIBRARIES})
-#add_dependencies(sub feather_generate_messages_cpp)
-
-#add_executable(add_three src/add_three_ints_server.cpp)
-#target_link_libraries(add_three ${catkin_LIBRARIES})
-#add_dependencies(add_three feather_gencpp)
-
-# coordinate service for sei automatic mode
-add_executable(coordinate_server src/coordinate_server.cpp)
-target_link_libraries(coordinate_server ${catkin_LIBRARIES})
-add_dependencies(coordinate_server feather_gencpp)
-
-## talker node
-#add_executable(talker src/publisher_cpp.cpp)
-#target_link_libraries(talker ${catkin_LIBRARIES})
-#add_dependencies(talker feather_generate_messages_cpp)
-#subcriber to talker
-#add_executable(listener src/subscriber_cpp.cpp)
-#target_link_libraries(listener ${catkin_LIBRARIES})
-#add_dependencies(listener feather_generate_messages_cpp)
-
-
-#lidar simulator in cpp
-add_executable(lidar_simulator src/lidar_simulator.cpp)
-target_link_libraries(lidar_simulator ${catkin_LIBRARIES})
-add_dependencies(lidar_simulator feather_generate_messages_cpp)
-#motor node
-add_executable(motor_node src/status_node.cpp)
-target_link_libraries(motor_node ${catkin_LIBRARIES})
-add_dependencies(motor_node feather_generate_messages_cpp)
-
-
-add_executable(communication src/communication.cpp)
-target_link_libraries(communication  ${catkin_LIBRARIES})
-add_dependencies(communication feather_gencpp)
-
-
-add_executable(params_server src/params_server.cpp)
-target_link_libraries(params_server  ${catkin_LIBRARIES})
-add_dependencies(params_server feather_gencpp)
-
-add_executable(add_two_ints_server src/add_two_ints_server.cpp)
-target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
-add_dependencies(add_two_ints_server feather_gencpp)
-
-

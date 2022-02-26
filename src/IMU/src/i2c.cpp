@@ -1,22 +1,13 @@
 #include <IMU/i2c.h>
 #include <ros/ros.h>
-/**
- * batmon_driver class that handles the i2c communication
- * @author Nico Bartholomai
- * @param adapter_nr the adapter number, ex 3 from /dev/i2c-3
- * @param addr the address of the i2c port from 'i2cdetect -y 3'
- */
-batmon_driver::batmon_driver(int adapter_nr, int addr) {
+
+i2c::i2c(int adapter_nr, int addr) {
     file_num = adapter_nr;
     this->addr = addr;
 }
 
-/**
- * Reads a 16bit word using smbus
- * @param reg the register to read the word from
- * @return contents of the register as a 32bit int
- */
-int batmon_driver::read_8bit_word(int reg) {
+
+int i2c::read_8bit_word(int reg) {
     int file;
     char filename[20];
     //------ Open I2C BUS ------
@@ -38,7 +29,7 @@ int batmon_driver::read_8bit_word(int reg) {
         return -1;
     }
 
-    //------ READ BYTES with SMBus ----
+   
     int result_volt = i2c_smbus_read_byte_data(file, reg);
     if (result_volt < 0) {
         ROS_ERROR("Failed to read from register: 0x%02X", reg);
@@ -49,16 +40,8 @@ int batmon_driver::read_8bit_word(int reg) {
     return result_volt;
 }
 
-/**
- * gets the voltage
- * @return voltage in volts
- 
-float batmon_driver::get_voltage() {
-    // divide by 1000 to convert mV to V
-    return read_16bit_word(SMBUS_VOLTAGE) / ((float) 1000);
-}*/
 
-int batmon_driver::write_8bit_word(int reg, int data) {
+int i2c::write_8bit_word(int reg, int data) {
     int file;
     char filename[20];
     //------ Open I2C BUS ------
@@ -93,7 +76,7 @@ int batmon_driver::write_8bit_word(int reg, int data) {
 
 
 
-float batmon_driver::getAres(uint8_t Ascale) {
+float i2c::getAres(uint8_t Ascale) {
   switch (Ascale)
   {
     // Possible accelerometer scales (and their register bit settings) are:
@@ -117,7 +100,7 @@ float batmon_driver::getAres(uint8_t Ascale) {
   }
 }
 
-float batmon_driver::getGres(uint8_t Gscale) {
+float i2c::getGres(uint8_t Gscale) {
   switch (Gscale)
   {
     case GFS_15_125DPS:
@@ -156,7 +139,7 @@ float batmon_driver::getGres(uint8_t Gscale) {
 }
 
 
-void batmon_driver::reset()
+void i2c::reset()
 {
   // reset device
   int temp = read_8bit_word(ICM42605_DEVICE_CONFIG);
@@ -165,7 +148,7 @@ void batmon_driver::reset()
 }
 
 
-uint8_t batmon_driver::status()
+uint8_t i2c::status()
 {
   // reset device
   int temp = read_8bit_word(ICM42605_INT_STATUS);
@@ -173,7 +156,7 @@ uint8_t batmon_driver::status()
 }
 
 
-void batmon_driver::init(uint8_t Ascale, uint8_t Gscale, uint8_t AODR, uint8_t GODR)
+void i2c::init(uint8_t Ascale, uint8_t Gscale, uint8_t AODR, uint8_t GODR)
 {
 
    getAres(Ascale);
@@ -233,7 +216,7 @@ void batmon_driver::init(uint8_t Ascale, uint8_t Gscale, uint8_t AODR, uint8_t G
 }
 
 
-void batmon_driver::offsetBias(float * dest1, float * dest2)
+void i2c::offsetBias(float * dest1, float * dest2)
 {
   int16_t temp[6] = {0, 0, 0, 0, 0, 0};
   int32_t sum[6] = {0, 0, 0, 0, 0, 0};
@@ -283,7 +266,7 @@ void batmon_driver::offsetBias(float * dest1, float * dest2)
 }
 
 
-void batmon_driver::readData(int16_t * destination)
+void i2c::readData(int16_t * destination)
 {
   uint8_t rawData[12];  // x/y/z accel register data stored here
   

@@ -29,7 +29,7 @@ volatile float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;	// quaternion of sens
 double Ts = 1;                                                        //Sampeling Period
 //___________________________________________
 
-batmon_driver bat(3, I2CADDRESS3);
+i2c bat(3, I2CADDRESS3);
 
 uint8_t Ascale = AFS_2G, Gscale = GFS_250DPS, AODR = AODR_1000Hz, GODR = GODR_1000Hz;
 

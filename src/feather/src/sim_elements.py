@@ -2,6 +2,11 @@ import os
 import pygame
 from numpy import cos, sin
 
+class LaserState:
+    HOLD = 'hold'
+    FIRE = 'fire'
+    BRUSH = 'brush'
+
 class Obstacle:
     def __init__(self, x, y, width, height, pic):
         self.x = x
@@ -52,10 +57,54 @@ class Player:
         speed_x, speed_y = rect_speed(self.speed, self.angle)
         self.x += speed_x
         self.y += speed_y
-#class Bullet:
+    def keystroke_movements(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_k:
+                #up
+                self.move_forward()
+            if event.key == pygame.K_j:
+                #down
+                self.move_backward()
+            if event.key == pygame.K_h:
+                #left
+                self.turn_left()
+            if event.key == pygame.K_l:
+                #right
+                self.turn_right()
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_k:
+                #up
+                self.stop_move()
+            if event.key == pygame.K_j:
+                #down
+                self.stop_move()
+            if event.key == pygame.K_h:
+                #left
+                self.stop_rotating()
+            if event.key == pygame.K_l:
+                #right
+                self.stop_rotating()
+
+
+class Laser:
+    def __init__(self, pic):
+        BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+        self.logo = pygame.image.load(F'{BASE_DIR}/{pic}')
+        self.speed = 0
+        self.x = 0
+        self.y = 0
+        self.angle = 0
+        self.params = {'bullet_speed': 2}
+        self.state = LaserState.HOLD
+
+    def shot(self):
+        print('Shooting')
+        self.speed = self.params['bullet_speed']
 
 def rect_speed(linear, angle):
     angle_ = angle * 3.1416 / 180
+    #print(F'speed = {linear}, angle = {angle}')
     if angle > 180:
         speed_x = -linear * cos(angle_)
         speed_y = linear * sin(angle_)

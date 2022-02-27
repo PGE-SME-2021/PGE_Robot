@@ -1,7 +1,7 @@
 import os
 import pygame
 import time
-from sim_elements import Obstacle, Player, rect_speed
+from sim_elements import *
 
 class CordobesSimulator:
     def __init__(self, **kwargs):
@@ -27,16 +27,7 @@ class CordobesSimulator:
         # player
         self.gallito = Player(300, 300, 'nabo.png')
         self.gallito.update_params(self.params)
-
-        
         # <a href="https://www.flaticon.com/free-icons/rooster" title="rooster icons">Rooster icons created by Culmbio - Flaticon</a>
-        self.player_x = 300
-        self.player_y = 300
-        self.speed = 0
-        self.angle = -90
-        self.angle_speed = 0
-        self.speed_x = 0
-        self.speed_y = 0
 
         # obstacles
         self.obstacles = []
@@ -64,11 +55,7 @@ class CordobesSimulator:
         #<a href="https://www.flaticon.es/iconos-gratis/examen" title="examen iconos">Examen iconos creados por BomSymbols - Flaticon</a>
         
         #bullet
-        self.bullet_logo = pygame.image.load(F'{BASE_DIR}/bullet.png')
-        self.bullet_speed = 0
-        self.bullet_x = 300
-        self.bullet_y = 300
-        self.bullet_angle = self.angle
+        self.laser = Laser('bullet.png')
         #<a href="https://www.flaticon.com/free-icons/bullet" title="bullet icons">Bullet icons created by Freepik - Flaticon</a>
 
 
@@ -82,63 +69,54 @@ class CordobesSimulator:
 
             #if keystroke is pressed
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    self.bullet_x = self.gallito.x
-                    self.bullet_y = self.gallito.y
-                    self.bullet_angle = self.gallito.angle
-                    self.bullet_speed = self.params['bullet_speed']
-
                 if event.key == pygame.K_q:
                     self.running = False
-                if event.key == pygame.K_k:
-                    #up
-                    self.gallito.move_forward()
-                if event.key == pygame.K_j:
-                    #down
-                    self.gallito.move_backward()
-                if event.key == pygame.K_h:
-                    #left
-                    self.gallito.turn_left()
-                if event.key == pygame.K_l:
-                    #right
-                    self.gallito.turn_right()
+                if event.key == pygame.K_SPACE:
+                    self.laser.x = self.gallito.x
+                    self.laser.y = self.gallito.y
+                    self.laser.angle = self.gallito.angle
+                    self.laser.state = LaserState.BRUSH
+                    self.laser.shot()
 
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_k:
-                    #up
-                    self.gallito.stop_move()
-                if event.key == pygame.K_j:
-                    #down
-                    self.gallito.stop_move()
-                if event.key == pygame.K_h:
-                    #left
-                    self.gallito.stop_rotating()
-                if event.key == pygame.K_l:
-                    #right
-                    self.gallito.stop_rotating()
+
+            self.gallito.keystroke_movements(event)
 
         #screen is drawn first and then we draw our player  caracter
         #player dinamics
         self.gallito.dynamics()
 
         #bullet dinamics
+        #if self.laser.state == LaserState.BRUSH:
+        #for i in range(5):
+        i = 1
         speed_x, speed_y = rect_speed(
-            self.bullet_speed,
-            self.bullet_angle
+            self.laser.speed,
+            self.laser.angle #+ i * 3
             )
-        self.bullet_x -= speed_x
-        self.bullet_y -= speed_y
-        if self.bullet_y == 0:
-            self.bullet_speed = 0
-            self.bullet_y = self.player_y
+        self.laser.x -= speed_x
+        self.laser.y -= speed_y
+        #print(F'\n\nbullet {i}\n({speed_x}, {self.laser.angle}')
+        #if self.bullet_y == 0:
+        #    self.bullet_speed = 0
+        #    self.bullet_y = self.player_y
 
-        collision = self.collision(self.bullet_x, self.bullet_y, self.obstacles)
+        collision = self.collision(
+            self.laser.x,
+            self.laser.y,
+            self.obstacles
+            )
         if collision:
-            self.bullet_speed = 0
-            self.bullet_x = self.player_x
-            self.bullet_y = self.player_y
+            self.laser.speed = 0
+            self.laser.x = self.gallito.x
+            self.laser.y = self.gallito.y
+            self.screen.fill((230, 0, 0))
+
+
+        #self.laser.state = LaserState.HOLD
+            #pygame.display.update()
 
         # boundaries
+        '''
         if self.player_x + self.frame[0] > self.screen_size[0]:
             self.player_x = self.screen_size[0] - self.frame[0]
         if self.player_y + self.frame[1] > self.screen_size[1]:
@@ -147,16 +125,19 @@ class CordobesSimulator:
             self.player_x = self.frame[0]
         if self.player_y - self.frame[1] < 0:
             self.player_y = self.frame[1]
+        '''
 
         self.draw_element(self.gallito)
+        self.draw_element(self.laser)
         for obstacle in self.obstacles:
             self.draw_element(obstacle)
         #self.enemy(self.student_obstacle1)
-        self.bullet(
-            self.bullet_x,
-            self.bullet_y,
-            self.bullet_angle
+        self.scan(
+            self.laser.x,
+            self.laser.y,
+            self.laser.angle
             )
+
         pygame.display.update()
 
     def collision(self, x, y, obstacles):
@@ -207,12 +188,13 @@ class CordobesSimulator:
             (obstacle.x, obstacle.y)
             )#drawing
 
-    def bullet(self, x, y, angle):
+    def scan(self, x, y, angle):
         logo_rotated = pygame.transform.rotate(
-            self.bullet_logo,
+            self.laser.logo,
             angle
             )
         self.screen.blit(logo_rotated, (x + 10 , y + 10))#drawing
+
     def draw_element(self, element):
         logo_rotated = pygame.transform.rotate(
             element.logo, element.angle + 90

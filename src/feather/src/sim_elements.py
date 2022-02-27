@@ -95,7 +95,7 @@ class Laser:
         self.x = 0
         self.y = 0
         self.angle = 0
-        self.params = {'bullet_speed': 2}
+        self.params = {'bullet_speed': 1}
         self.state = LaserState.HOLD
 
     def shot(self):

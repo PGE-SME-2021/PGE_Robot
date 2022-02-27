@@ -86,34 +86,35 @@ class CordobesSimulator:
         self.gallito.dynamics()
 
         #bullet dinamics
-        #if self.laser.state == LaserState.BRUSH:
-        #for i in range(5):
-        i = 1
-        speed_x, speed_y = rect_speed(
-            self.laser.speed,
-            self.laser.angle #+ i * 3
-            )
-        self.laser.x -= speed_x
-        self.laser.y -= speed_y
-        #print(F'\n\nbullet {i}\n({speed_x}, {self.laser.angle}')
-        #if self.bullet_y == 0:
-        #    self.bullet_speed = 0
-        #    self.bullet_y = self.player_y
+        i = 0
+        while self.laser.state == LaserState.BRUSH:
+                
+            speed_x, speed_y = rect_speed(
+                self.laser.speed,
+                self.laser.angle + i
+                )
+            self.laser.x -= speed_x
+            self.laser.y -= speed_y
+            print(F'bullet {i}')
 
-        collision = self.collision(
-            self.laser.x,
-            self.laser.y,
-            self.obstacles
-            )
-        if collision:
-            self.laser.speed = 0
-            self.laser.x = self.gallito.x
-            self.laser.y = self.gallito.y
-            self.screen.fill((230, 0, 0))
-
-
-        #self.laser.state = LaserState.HOLD
+            collision = self.collision(
+                self.laser.x,
+                self.laser.y,
+                self.obstacles
+                )
+            if collision:
+                self.laser.x = self.gallito.x
+                self.laser.y = self.gallito.y
+                self.screen.fill((230, 0, 0))
+                i += 1
+                #publish
+                    #time.sleep(1)
+            #self.draw_element(self.laser)
             #pygame.display.update()
+            if i >= 360:
+                self.laser.speed = 0
+                self.laser.state = LaserState.HOLD
+                
 
         # boundaries
         '''
@@ -132,11 +133,11 @@ class CordobesSimulator:
         for obstacle in self.obstacles:
             self.draw_element(obstacle)
         #self.enemy(self.student_obstacle1)
-        self.scan(
-            self.laser.x,
-            self.laser.y,
-            self.laser.angle
-            )
+        #self.scan(
+        #    self.laser.x,
+        #    self.laser.y,
+        #    self.laser.angle
+        #    )
 
         pygame.display.update()
 
@@ -153,20 +154,20 @@ class CordobesSimulator:
             0,
             self.screen_size[0],
             self.screen_size[0],
-            1,
+            4,
             'examen.png'
             )
         ceiling = Obstacle(
             0,
             0,
             self.screen_size[0],
-            1,
+            4,
             'examen.png'
             )
         left_wall = Obstacle(
             0,
             0,
-            1,
+            4,
             self.screen_size[1],
             'examen.png'
             )

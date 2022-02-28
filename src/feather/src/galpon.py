@@ -46,14 +46,14 @@ class CordobesSimulator:
             'examen.png'
             )
 
-        
+
         self.obstacles.append(student_obstacle1)
         self.obstacles.append(student_obstacle2)
         self.get_walls()
 
-     
+
         #<a href="https://www.flaticon.es/iconos-gratis/examen" title="examen iconos">Examen iconos creados por BomSymbols - Flaticon</a>
-        
+
         #bullet
         self.laser = Laser('bullet.png')
         #<a href="https://www.flaticon.com/free-icons/bullet" title="bullet icons">Bullet icons created by Freepik - Flaticon</a>
@@ -88,7 +88,7 @@ class CordobesSimulator:
         #bullet dinamics
         i = 0
         while self.laser.state == LaserState.BRUSH:
-                
+
             speed_x, speed_y = rect_speed(
                 self.laser.speed,
                 self.laser.angle + i
@@ -114,7 +114,7 @@ class CordobesSimulator:
             if i >= 360:
                 self.laser.speed = 0
                 self.laser.state = LaserState.HOLD
-                
+
 
         # boundaries
         '''

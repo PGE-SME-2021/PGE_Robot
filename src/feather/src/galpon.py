@@ -2,11 +2,12 @@ import os
 import pygame
 import time
 from sim_elements import *
+from mainwindow_gui import mapping
 
 class CordobesSimulator:
-    def __init__(self, **kwargs):
-        self.screen_size = kwargs['screen_size']
-        self.params = kwargs['params']
+    def __init__(self, **kargs):
+        self.screen_size = kargs['screen_size']
+        self.params = kargs['params']
 
         pygame.init()
 
@@ -19,7 +20,7 @@ class CordobesSimulator:
 
         # title and icon
         pygame.display.set_caption("FeatherBot Sim")
-        # <a href="htts://www.flaticon.com/free-icons/cock" title="cock icons">Cock icons created by Freepik - Flaticon</a>
+        # <a href="htts://ww.flaticon.com/free-icons/cock" title="cock icons">Cock icons created by Freepik - Flaticon</a>
         BASE_DIR = os.path.dirname(os.path.realpath(__file__))
         icon = pygame.image.load(F'{BASE_DIR}/rooster.png')
         pygame.display.set_icon(icon)
@@ -27,7 +28,7 @@ class CordobesSimulator:
         # player
         self.gallito = Player(300, 300, 'nabo.png')
         self.gallito.update_params(self.params)
-        # <a href="https://www.flaticon.com/free-icons/rooster" title="rooster icons">Rooster icons created by Culmbio - Flaticon</a>
+        # <a href="https://ww.flaticon.com/free-icons/rooster" title="rooster icons">Rooster icons created by Culmbio - Flaticon</a>
 
         # obstacles
         self.obstacles = []
@@ -49,20 +50,21 @@ class CordobesSimulator:
 
         self.obstacles.append(student_obstacle1)
         self.obstacles.append(student_obstacle2)
-        self.get_walls()
+        self.get_alls()
 
 
-        #<a href="https://www.flaticon.es/iconos-gratis/examen" title="examen iconos">Examen iconos creados por BomSymbols - Flaticon</a>
+        #<a href="https://ww.flaticon.es/iconos-gratis/examen" title="examen iconos">Examen iconos creados por BomSymbols - Flaticon</a>
 
         #bullet
         self.laser = Laser('bullet.png')
-        #<a href="https://www.flaticon.com/free-icons/bullet" title="bullet icons">Bullet icons created by Freepik - Flaticon</a>
+        #<a href="https://ww.flaticon.com/free-icons/bullet" title="bullet icons">Bullet icons created by Freepik - Flaticon</a>
 
 
     def gameloop(self):
     # Game loop
-    #while running and not rospy.is_shutdown():
+    #hile running and not rospy.is_shutdown():
         self.screen.fill((230, 255, 255))
+        self.lidar_points = []
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -81,55 +83,54 @@ class CordobesSimulator:
 
             self.gallito.keystroke_movements(event)
 
-        #screen is drawn first and then we draw our player  caracter
+        #screen is dran first and then we draw our player  caracter
         #player dinamics
         self.gallito.dynamics()
 
-        #bullet dinamics
+        #get lidar points
         i = 0
         while self.laser.state == LaserState.BRUSH:
-
             speed_x, speed_y = rect_speed(
                 self.laser.speed,
                 self.laser.angle + i
                 )
             self.laser.x -= speed_x
             self.laser.y -= speed_y
-            print(F'bullet {i}')
 
-            collision = self.collision(
+            is_collision, lidar_x, lidar_y  = self.collision(
                 self.laser.x,
                 self.laser.y,
                 self.obstacles
                 )
-            if collision:
+            if is_collision:
+                #relative coords
+                lidar_x = self.gallito.x - lidar_x
+                lidar_y = self.gallito.y - lidar_y
+                #adjust to a -12 and 12 frame
+                lidar_x = mapping(0, self.screen_size[0], -12, 12, lidar_x)
+                lidar_y = mapping(self.screen_size[1], 0, -12, 12, lidar_y)
+                self.lidar_points.append([lidar_x, lidar_y])
+                i += 1
+                #reset laser
                 self.laser.x = self.gallito.x
                 self.laser.y = self.gallito.y
                 self.screen.fill((230, 0, 0))
-                i += 1
-                #publish
-                    #time.sleep(1)
-            #self.draw_element(self.laser)
-            #pygame.display.update()
             if i >= 360:
                 self.laser.speed = 0
                 self.laser.state = LaserState.HOLD
 
 
-        # boundaries
-        '''
-        if self.player_x + self.frame[0] > self.screen_size[0]:
-            self.player_x = self.screen_size[0] - self.frame[0]
-        if self.player_y + self.frame[1] > self.screen_size[1]:
-            self.player_y = self.screen_size[1] - self.frame[1]
-        if self.player_x - self.frame[0] < 0:
-            self.player_x = self.frame[0]
-        if self.player_y - self.frame[1] < 0:
-            self.player_y = self.frame[1]
-        '''
+        # boundary collisions
+        if self.gallito.x + self.frame[0] > self.screen_size[0]:
+            self.gallito.x = self.screen_size[0] - self.frame[0]
+        if self.gallito.y + self.frame[1] > self.screen_size[1]:
+            self.gallito.y = self.screen_size[1] - self.frame[1]
+        if self.gallito.x - self.frame[0] < 0:
+            self.gallito.x = self.frame[0]
+        if self.gallito.y - self.frame[1] < 0:
+            self.gallito.y = self.frame[1]
 
         self.draw_element(self.gallito)
-        self.draw_element(self.laser)
         for obstacle in self.obstacles:
             self.draw_element(obstacle)
         #self.enemy(self.student_obstacle1)
@@ -145,11 +146,11 @@ class CordobesSimulator:
         for obstacle in obstacles:
             coordinates = obstacle.get_hitbox()
             if x > coordinates[0] and x < coordinates[2] and y > coordinates[1] and y < coordinates[3]:
-                print(F'COLLISION DETECTED  AT\n({x}, {y}')
-                return True
-        return False
+                #print(F'COLLISION DETECTED  AT\n({x}, {y}')
+                return True, x, y
+        return False, 0, 0
 
-    def get_walls(self):
+    def get_alls(self):
         floor = Obstacle(
             0,
             self.screen_size[0],
@@ -164,14 +165,14 @@ class CordobesSimulator:
             4,
             'examen.png'
             )
-        left_wall = Obstacle(
+        left_all = Obstacle(
             0,
             0,
             4,
             self.screen_size[1],
             'examen.png'
             )
-        right_wall = Obstacle(
+        right_all = Obstacle(
             self.screen_size[0],
             0,
             10,
@@ -180,21 +181,21 @@ class CordobesSimulator:
             )
         self.obstacles.append(floor)
         self.obstacles.append(ceiling)
-        self.obstacles.append(left_wall)
-        self.obstacles.append(right_wall)
+        self.obstacles.append(left_all)
+        self.obstacles.append(right_all)
 
     def enemy(self, obstacle):
         self.screen.blit(
             obstacle.logo,
             (obstacle.x, obstacle.y)
-            )#drawing
+            )#draing
 
     def scan(self, x, y, angle):
         logo_rotated = pygame.transform.rotate(
             self.laser.logo,
             angle
             )
-        self.screen.blit(logo_rotated, (x + 10 , y + 10))#drawing
+        self.screen.blit(logo_rotated, (x + 10 , y + 10))#draing
 
     def draw_element(self, element):
         logo_rotated = pygame.transform.rotate(
@@ -203,7 +204,7 @@ class CordobesSimulator:
         self.screen.blit(
             logo_rotated,
             (element.x, element.y)
-            )#drawing
+            )#draing
 
 if __name__ == "__main__":
     sim = CordobesSimulator(

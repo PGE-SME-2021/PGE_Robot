@@ -1,8 +1,6 @@
 <launch>
 
 
-<node pkg="feather" name="lidar_pub" type="lidar_simulator.py" output="screen">
-</node>
 <node pkg="feather" name="pico_blanco" type="cordo.py" output="screen">
 </node>
 
@@ -12,7 +10,7 @@
 <node pkg="feather" name="coordinate_server" type="coordinate_server" output="screen">
 </node> 
 
-<node pkg="feather" name="ihm_node" type="mainwindow_gui.py" output="screen">
+<node pkg="feather" name="ihm_node" type="mainwindow_gui_sim.py" output="screen">
 </node> 
 
 </launch>

@@ -173,13 +173,16 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def get_Qthread_data(self):
         previous_value = -1
         while True:
-            self.msg = rospy.wait_for_message('/status', Status, timeout = 5)
-            current_value = self.msg.battery
-            if previous_value != current_value:
-                self.ui.lineEdit_3.setText(F"{self.msg.acceleration}")
-                self.ui.lineEdit_2.setText(F"{self.msg.speed}")
-                self.ui.lineEdit.setText(F"{self.msg.angular_speed}")
-                self.ui.lineEdit_4.setText(F"{self.msg.battery}")
+            try:
+                self.msg = rospy.wait_for_message('/status', Status, timeout = 7)
+                current_value = self.msg.battery
+                if previous_value != current_value:
+                    self.ui.lineEdit_3.setText(F"{self.msg.acceleration}")
+                    self.ui.lineEdit_2.setText(F"{self.msg.speed}")
+                    self.ui.lineEdit.setText(F"{self.msg.angular_speed}")
+                    self.ui.lineEdit_4.setText(F"{self.msg.battery}")
+            except:
+                pass
 
             previous_value = current_value
 

@@ -62,7 +62,6 @@ class CordobesSimulator:
 
     def gameloop(self):
     # Game loop
-    #hile running and not rospy.is_shutdown():
         self.screen.fill((230, 255, 255))
         self.lidar_points = []
         for event in pygame.event.get():
@@ -88,6 +87,28 @@ class CordobesSimulator:
         self.gallito.dynamics()
 
         #get lidar points
+        self.get_lidar_data()
+
+        # boundary collisions
+        self.boundary_collisions()
+
+        self.draw_element(self.gallito)
+        for obstacle in self.obstacles:
+            self.draw_element(obstacle)
+
+        pygame.display.update()
+
+    def boundary_collisions(self):
+        if self.gallito.x + self.frame[0] > self.screen_size[0]:
+            self.gallito.x = self.screen_size[0] - self.frame[0]
+        if self.gallito.y + self.frame[1] > self.screen_size[1]:
+            self.gallito.y = self.screen_size[1] - self.frame[1]
+        if self.gallito.x - self.frame[0] < 0:
+            self.gallito.x = self.frame[0]
+        if self.gallito.y - self.frame[1] < 0:
+            self.gallito.y = self.frame[1]
+
+    def get_lidar_data(self):
         i = 0
         while self.laser.state == LaserState.BRUSH:
             speed_x, speed_y = rect_speed(
@@ -118,29 +139,6 @@ class CordobesSimulator:
             if i >= 360:
                 self.laser.speed = 0
                 self.laser.state = LaserState.HOLD
-
-
-        # boundary collisions
-        if self.gallito.x + self.frame[0] > self.screen_size[0]:
-            self.gallito.x = self.screen_size[0] - self.frame[0]
-        if self.gallito.y + self.frame[1] > self.screen_size[1]:
-            self.gallito.y = self.screen_size[1] - self.frame[1]
-        if self.gallito.x - self.frame[0] < 0:
-            self.gallito.x = self.frame[0]
-        if self.gallito.y - self.frame[1] < 0:
-            self.gallito.y = self.frame[1]
-
-        self.draw_element(self.gallito)
-        for obstacle in self.obstacles:
-            self.draw_element(obstacle)
-        #self.enemy(self.student_obstacle1)
-        #self.scan(
-        #    self.laser.x,
-        #    self.laser.y,
-        #    self.laser.angle
-        #    )
-
-        pygame.display.update()
 
     def collision(self, x, y, obstacles):
         for obstacle in obstacles:
@@ -190,13 +188,6 @@ class CordobesSimulator:
             (obstacle.x, obstacle.y)
             )#draing
 
-    def scan(self, x, y, angle):
-        logo_rotated = pygame.transform.rotate(
-            self.laser.logo,
-            angle
-            )
-        self.screen.blit(logo_rotated, (x + 10 , y + 10))#draing
-
     def draw_element(self, element):
         logo_rotated = pygame.transform.rotate(
             element.logo, element.angle + 90
@@ -204,7 +195,7 @@ class CordobesSimulator:
         self.screen.blit(
             logo_rotated,
             (element.x, element.y)
-            )#draing
+            )#drawing
 
 if __name__ == "__main__":
     sim = CordobesSimulator(

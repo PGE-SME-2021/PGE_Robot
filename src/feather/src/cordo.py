@@ -64,7 +64,6 @@ if __name__ == "__main__":
                     i += 1
                 if i >= 400:
                     break
-            rospy.loginfo(lidar_msg)
 
         lidar_pub.publish(lidar_msg)
         status_pub.publish(status_msg)

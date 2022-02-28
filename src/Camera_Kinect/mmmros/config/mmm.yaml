@@ -1,0 +1,44 @@
+mmm:
+    port: "/dev/ttyACM0"
+    sensor:
+        active: false
+        rate: 10 #Hz
+    face:
+        active: false
+    dimensions: # meters
+        baseToChest: 0.84
+        chestToShoulder: 0.264
+        shoulderToElbow: 0.07
+        elbowToWrist: 0.273
+        wheelSeparation: 0.48
+        wheelRadius: 0.1016
+    leftWheelSpeed:
+        min: -0.18
+        max: 0.18
+    rightWheelSpeed:
+        min: -0.18
+        max: 0.18
+    leftShoulderAngle:
+        min: 0
+        max: 135
+    rightShoulderAngle:
+        min: 0
+        max: 135
+    leftElbowAngle:
+        min: -60
+        max: 60
+    rightElbowAngle:
+        min: -60
+        max: 60
+    leftArmExtension:
+        min: 0
+        max: 0.127
+    rightArmExtension:
+        min: 0
+        max: 0.127
+    leftGripperAngles:
+        min: 0
+        max: 180
+    rightGripperAngles:
+        min: 0
+        max: 180

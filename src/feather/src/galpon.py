@@ -33,15 +33,15 @@ class CordobesSimulator:
         # obstacles
         self.obstacles = []
         student_obstacle1 = Obstacle(
-            150,
+            250,
             150,
             100,
             100,
             'examen.png'
             )
         student_obstacle2 = Obstacle(
-            550,
-            550,
+            450,
+            450,
             100,
             100,
             'examen.png'
@@ -50,7 +50,7 @@ class CordobesSimulator:
 
         self.obstacles.append(student_obstacle1)
         self.obstacles.append(student_obstacle2)
-        self.get_alls()
+        self.get_walls()
 
 
         #<a href="https://ww.flaticon.es/iconos-gratis/examen" title="examen iconos">Examen iconos creados por BomSymbols - Flaticon</a>
@@ -125,11 +125,12 @@ class CordobesSimulator:
                 )
             if is_collision:
                 #relative coords
-                lidar_x = self.gallito.x - lidar_x
-                lidar_y = self.gallito.y - lidar_y
+                lidar_x = ((self.gallito.x + 24) + lidar_x) * -1
+                lidar_y = (lidar_y - self.gallito.y - 24) * -1
                 #adjust to a -12 and 12 frame
-                lidar_x = mapping(0, self.screen_size[0], -12, 12, lidar_x)
-                lidar_y = mapping(self.screen_size[1], 0, -12, 12, lidar_y)
+                frame_size = 10
+                #lidar_x = mapping(self.screen_size[0], 0, -frame_size, frame_size, lidar_x)
+                #lidar_y = mapping(self.screen_size[1], 0, -frame_size, frame_size, lidar_y)
                 self.lidar_points.append([lidar_x, lidar_y])
                 i += 1
                 #reset laser
@@ -148,7 +149,7 @@ class CordobesSimulator:
                 return True, x, y
         return False, 0, 0
 
-    def get_alls(self):
+    def get_walls(self):
         floor = Obstacle(
             0,
             self.screen_size[0],

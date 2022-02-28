@@ -109,7 +109,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot.getPlotItem().hideAxis('left')
         self.x_plot = [-12, 12]
         self.y_plot = [-12, 12]
-        self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
+        #self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
         self.my_plot.hideButtons()
         self.ui.verticalLayout.addWidget(self.my_plot)
         self.plot = self.my_plot.plot(pen=None, symbolSize=5, symbolBrush='b') #create an object "plot"
@@ -231,7 +231,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def right_click(self):
         send_command_client(3,230,230)
 
-    ## Up button
+    ## Up butto
     # When right button is pressed this makes the robot move forward.
     def up_click(self):
         send_command_client(1,230,230)

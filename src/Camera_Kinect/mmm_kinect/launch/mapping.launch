@@ -1,0 +1,20 @@
+<launch>
+
+	<include file="$(find mmmros)/launch/mmm.launch"/>
+	<param name="mmm/port" value="/dev/ttyACM0"/>
+	
+     	<include file="$(find freenect_launch)/launch/freenect.launch">
+		<arg name="depth_registration" value="true"/>	
+	</include>
+
+	<include file="$(find rtabmap_ros)/launch/rgbd_mapping.launch">
+		<arg name="rtabmap_args" value="--delete_db_on_start"/>
+		<arg name="rviz" value="true"/>
+		<arg name="rtabmapviz" value="false"/>	
+	</include>
+
+     	<node pkg="mmm_teleop" name="mmm_teleop" type="mmm_teleop_node.py" output="screen"/>
+
+	<node pkg="mmm_kinect" name="autonav_node" type="autonav_node.py" output="screen"/>
+     	
+</launch>

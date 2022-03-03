@@ -30,13 +30,14 @@ def send_command_client(com,v1,v2):
 if __name__ == "__main__":
     try:
         print("moving forward")
-        send_command_client(4,230,230)
-        time.sleep(5)
+        send_command_client(1,230,230)
+        time.sleep(1)
         send_command_client(5,230,230)
-        time.sleep(5)
+        time.sleep(1)
         send_command_client(3,230,230)
-        time.sleep(5)
+        time.sleep(3)
+        send_command_client(4,230,230)
+        time.sleep(3)
         send_command_client(5,230,230)
-        time.sleep(5)
     except Exception as e:
         print(e)

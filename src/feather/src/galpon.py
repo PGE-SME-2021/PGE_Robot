@@ -46,14 +46,14 @@ class CordobesSimulator:
             'examen.png'
             )
 
-        
+
         self.obstacles.append(student_obstacle1)
         self.obstacles.append(student_obstacle2)
         self.get_walls()
 
-     
+
         #<a href="https://www.flaticon.es/iconos-gratis/examen" title="examen iconos">Examen iconos creados por BomSymbols - Flaticon</a>
-        
+
         #bullet
         self.laser = Laser('bullet.png')
         #<a href="https://www.flaticon.com/free-icons/bullet" title="bullet icons">Bullet icons created by Freepik - Flaticon</a>
@@ -131,7 +131,11 @@ class CordobesSimulator:
         self.draw_element(self.gallito)
         self.draw_element(self.laser)
         for obstacle in self.obstacles:
-            self.draw_element(obstacle)
+            self.draw_element(
+                    obstacle,
+                    mode = "obstacle",
+                    list_ = "hole",
+                    )
         #self.enemy(self.student_obstacle1)
         #self.scan(
         #    self.laser.x,
@@ -148,6 +152,7 @@ class CordobesSimulator:
                 print(F'COLLISION DETECTED  AT\n({x}, {y}')
                 return True
         return False
+
 
     def get_walls(self):
         floor = Obstacle(
@@ -196,7 +201,25 @@ class CordobesSimulator:
             )
         self.screen.blit(logo_rotated, (x + 10 , y + 10))#drawing
 
-    def draw_element(self, element):
+    def draw_element(self, element, **kwargs):
+        try:
+            if kwargs['mode'] == "obstacle":
+                # Initialing Color
+                color = (0,0,0)
+                # Drawing Rectangle
+                pygame.draw.rect(
+                        self.screen,
+                        color,
+                        pygame.Rect(
+                            element.x,
+                            element.y,
+                            element.width,
+                            element.height
+                            )
+                        )
+        except:
+            pass
+
         logo_rotated = pygame.transform.rotate(
             element.logo, element.angle + 90
             )
@@ -209,9 +232,9 @@ if __name__ == "__main__":
     sim = CordobesSimulator(
         screen_size = [650, 650],
         params = {
-            'speed': 0.6,
-            'angle_speed': 0.1,
-            'bullet_speed': 1,
+            'speed': 0.2,
+            'angle_speed': 0.2,
+            'bullet_speed': 2,
             }
     )
     while sim.running:

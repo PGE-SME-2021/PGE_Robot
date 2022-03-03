@@ -86,7 +86,6 @@ class Player:
                 #right
                 self.stop_rotating()
 
-
 class Laser:
     def __init__(self, pic):
         BASE_DIR = os.path.dirname(os.path.realpath(__file__))

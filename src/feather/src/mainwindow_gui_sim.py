@@ -63,6 +63,14 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         rospy.init_node('main_gui_node')
+        #self.ros.start_node()
+        #self.ros.subscriber()
+
+        #self.ros.subscriber("status", Status, callback1)
+        #self.ros.subscriber("lidar_data", LidarData, callback2)
+        #self.ros_lidar.start_node()
+
+        #self.showMaximized()    
 
         self.display_width = 640
         self.display_height = 480
@@ -101,7 +109,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot.getPlotItem().hideAxis('left')
         self.x_plot = [-12, 12]
         self.y_plot = [-12, 12]
-        self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
+        #self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
         self.my_plot.hideButtons()
         self.ui.verticalLayout.addWidget(self.my_plot)
         self.plot = self.my_plot.plot(pen=None, symbolSize=5, symbolBrush='b') #create an object "plot"
@@ -125,12 +133,15 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.list_x = []
         self.list_y = []
         self.step = 0.5
-        self.points_lidar = rospy.wait_for_message('/slam_cloud', PointCloud, timeout = 5)
-        for point in self.points_lidar.points:
-            self.list_x.append(point.x)
-            self.list_y.append(point.y)
-        #self.onNewData(self.list_x, self.list_y)
-        self.plot.setData(self.list_x, self.list_y)
+        try:
+            self.points_lidar = rospy.wait_for_message('/lidar_points', LidarData, timeout = 5)
+            for point in self.points_lidar.points:
+                self.list_x.append(point.x)
+                self.list_y.append(point.y)
+            #self.onNewData(self.list_x, self.list_y)
+            self.plot.setData(self.list_x, self.list_y)
+        except:
+            pass
 
     ## Get Camera data Thread
     # This function waits for a message in '/image_sim' node
@@ -162,13 +173,16 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def get_Qthread_data(self):
         previous_value = -1
         while True:
-            self.msg = rospy.wait_for_message('/status', Status, timeout = 5)
-            current_value = self.msg.battery
-            if previous_value != current_value:
-                self.ui.lineEdit_3.setText(F"{self.msg.acceleration}")
-                self.ui.lineEdit_2.setText(F"{self.msg.speed}")
-                self.ui.lineEdit.setText(F"{self.msg.angular_speed}")
-                self.ui.lineEdit_4.setText(F"{self.msg.battery}")
+            try:
+                self.msg = rospy.wait_for_message('/status', Status, timeout = 7)
+                current_value = self.msg.battery
+                if previous_value != current_value:
+                    self.ui.lineEdit_3.setText(F"{self.msg.acceleration}")
+                    self.ui.lineEdit_2.setText(F"{self.msg.speed}")
+                    self.ui.lineEdit.setText(F"{self.msg.angular_speed}")
+                    self.ui.lineEdit_4.setText(F"{self.msg.battery}")
+            except:
+                pass
 
             previous_value = current_value
 
@@ -188,7 +202,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.y_plot[1] += direction_list[3]
         self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
         print(F"x = {self.x_plot}, y = {self.y_plot}")
-
+    
     def settings_menu(self):
         self.settings_gui = QtWidgets.QDialog()
         self.settings_gui.ui = Ui_Widget()
@@ -217,7 +231,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def right_click(self):
         send_command_client(3,230,230)
 
-    ## Up button
+    ## Up butto
     # When right button is pressed this makes the robot move forward.
     def up_click(self):
         send_command_client(1,230,230)

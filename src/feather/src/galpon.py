@@ -52,12 +52,7 @@ class CordobesSimulator:
         self.obstacles.append(student_obstacle2)
         self.get_walls()
 
-
-<<<<<<< HEAD
         #<a href="https://www.flaticon.es/iconos-gratis/examen" title="examen iconos">Examen iconos creados por BomSymbols - Flaticon</a>
-=======
-        #<a href="https://ww.flaticon.es/iconos-gratis/examen" title="examen iconos">Examen iconos creados por BomSymbols - Flaticon</a>
->>>>>>> 9518e745a80d39ff02f86389eef5872db21832ba
 
         #bullet
         self.laser = Laser('bullet.png')
@@ -144,6 +139,7 @@ class CordobesSimulator:
             if i >= 360:
                 self.laser.speed = 0
                 self.laser.state = LaserState.HOLD
+
                 
 
         # boundaries
@@ -175,6 +171,7 @@ class CordobesSimulator:
 
         pygame.display.update()
 
+
     def collision(self, x, y, obstacles):
         for obstacle in obstacles:
             coordinates = obstacle.get_hitbox()
@@ -182,6 +179,9 @@ class CordobesSimulator:
                 #print(F'COLLISION DETECTED  AT\n({x}, {y}')
                 return True, x, y
         return False, 0, 0
+
+
+
 
 
     def get_walls(self):
@@ -242,7 +242,6 @@ class CordobesSimulator:
                         )
         except:
             pass
-
         logo_rotated = pygame.transform.rotate(
             element.logo, element.angle + 90
             )

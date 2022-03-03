@@ -124,13 +124,13 @@ class CordobesSimulator:
                 )
             if is_collision:
                 #relative coords
-                lidar_x = ((self.gallito.x + 24) + lidar_x) * -1
-                lidar_y = (lidar_y - self.gallito.y - 24) * -1
+                #lidar_x = ((self.gallito.x + 24) + lidar_x) * -1
+                #lidar_y = (lidar_y - self.gallito.y - 24) * -1
                 #adjust to a -12 and 12 frame
                 frame_size = 10
-                #lidar_x = mapping(self.screen_size[0], 0, -frame_size, frame_size, lidar_x)
-                #lidar_y = mapping(self.screen_size[1], 0, -frame_size, frame_size, lidar_y)
-                self.lidar_points.append([lidar_x, lidar_y])
+                #lidar_x = mapping(self.screen_size[0], 0, 0, 650, lidar_x)
+                #lidar_y = mapping(self.screen_size[1], 650, 0, 0, lidar_y)
+                self.lidar_points.append([lidar_x, -lidar_y])
                 i += 1
                 #reset laser
                 self.laser.x = self.gallito.x
@@ -140,19 +140,6 @@ class CordobesSimulator:
                 self.laser.speed = 0
                 self.laser.state = LaserState.HOLD
 
-                
-
-        # boundaries
-        '''
-        if self.player_x + self.frame[0] > self.screen_size[0]:
-            self.player_x = self.screen_size[0] - self.frame[0]
-        if self.player_y + self.frame[1] > self.screen_size[1]:
-            self.player_y = self.screen_size[1] - self.frame[1]
-        if self.player_x - self.frame[0] < 0:
-            self.player_x = self.frame[0]
-        if self.player_y - self.frame[1] < 0:
-            self.player_y = self.frame[1]
-        '''
 
         self.draw_element(self.gallito)
         self.draw_element(self.laser)
@@ -162,12 +149,6 @@ class CordobesSimulator:
                     mode = "obstacle",
                     list_ = "hole",
                     )
-        #self.enemy(self.student_obstacle1)
-        #self.scan(
-        #    self.laser.x,
-        #    self.laser.y,
-        #    self.laser.angle
-        #    )
 
         pygame.display.update()
 

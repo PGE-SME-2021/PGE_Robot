@@ -50,6 +50,7 @@ if __name__ == "__main__":
         sim.gameloop()
         #fill status message
         status_msg.speed = sim.gallito.speed
+        print(sim.gallito.speed)
         status_msg.angular_speed = sim.gallito.angle_speed
         status_msg.battery = 75
         status_msg. acceleration = 0

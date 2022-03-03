@@ -107,14 +107,16 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.my_plot = pg.PlotWidget()
         self.my_plot.getPlotItem().hideAxis('bottom')
         self.my_plot.getPlotItem().hideAxis('left')
-        self.x_plot = [-12, 12]
-        self.y_plot = [-12, 12]
+        self.x_plot = [0, 650]
+        self.y_plot = [0, 650]
         #self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
         self.my_plot.hideButtons()
         self.ui.verticalLayout.addWidget(self.my_plot)
         self.plot = self.my_plot.plot(pen=None, symbolSize=5, symbolBrush='b') #create an object "plot"
+        '''
         self.plot_center = self.my_plot.plot(pen=None, symbol='+', symbolSize=12, symbolBrush='w') #create an object "plot"
-        self.plot_center.setData([0],[0])
+        self.plot_center.setData([325],[325])
+        '''
         self.my_plot.scene().sigMouseClicked.connect(self.mouse_clicked)
 
     def start_data_acquisition(self):
@@ -202,7 +204,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.y_plot[1] += direction_list[3]
         self.my_plot.setRange(xRange = self.x_plot, yRange = self.y_plot, disableAutoRange = True)
         print(F"x = {self.x_plot}, y = {self.y_plot}")
-    
+
     def settings_menu(self):
         self.settings_gui = QtWidgets.QDialog()
         self.settings_gui.ui = Ui_Widget()

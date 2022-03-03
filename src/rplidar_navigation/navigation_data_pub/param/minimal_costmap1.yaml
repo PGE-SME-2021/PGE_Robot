@@ -1,0 +1,22 @@
+plugins:
+    - {name: static_map,       type: "costmap_2d::StaticLayer"}
+    - {name: inflation_layer,   type: "costmap_2d::InflationLayer"}
+
+#Assumes a square robot with side length of .24 meters. Assume center at 0,0
+footprint: [[-0.12, 0.12], [0.12, 0.12], [0.12, -0.12], [-0.12, -0.12]]
+
+global_frame: map
+robot_base_frame: base_link
+resolution: .1
+update_frequency: .5
+publish_frequency: .5
+transform_tolerance: 0.5
+rolling_window: false
+always_send_full_costmap: true
+
+static_layer:
+    map_topic: /map
+    unknown_cost_value: -1
+    lethal_cost_threshold: 100
+    first_map_only: false
+    subscribe_to_updates: false

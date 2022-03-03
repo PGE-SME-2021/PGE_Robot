@@ -1,0 +1,10 @@
+float64 leftWheelSpeed
+float64 rightWheelSpeed
+float64 leftShoulderAngle
+float64 rightShoulderAngle
+float64 leftElbowAngle
+float64 rightElbowAngle
+float64 leftArmExtension
+float64 rightArmExtension
+float64[5] leftGripperAngles
+float64[5] rightGripperAngles

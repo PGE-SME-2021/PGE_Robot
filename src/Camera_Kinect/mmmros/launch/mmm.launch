@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="mmmros" name="mmm" type="mmm_node.py" output="screen"/>
+    <rosparam file="$(find mmmros)/config/mmm.yaml" command="load"/>
+</launch>
